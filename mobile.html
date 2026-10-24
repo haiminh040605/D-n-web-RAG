@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Khung Thử Nghiệm Mobile HCI - Nhóm 11</title>
+  <style>
+    :root {
+      --primary: #003b95;
+      --accent: #febb02;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    body {
+      background: #0f172a;
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    /* Header */
+    .top-nav {
+      background: #1e293b;
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .brand-title {
+      font-size: 16px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .tag {
+      background: var(--accent);
+      color: #000;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 12px;
+    }
+    .controls {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    select, button {
+      background: #334155;
+      color: white;
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    button:hover { background: var(--primary); }
+
+    /* Layout Split */
+    .main-workspace {
+      flex: 1;
+      display: flex;
+      padding: 20px;
+      gap: 30px;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    /* Device Frame */
+    .device-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .device-frame {
+      width: 390px;
+      height: 800px;
+      background: #000;
+      border-radius: 46px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.7), 0 0 0 10px #334155;
+      overflow: hidden;
+      position: relative;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .device-notch {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 125px;
+      height: 24px;
+      background: #000;
+      border-bottom-left-radius: 16px;
+      border-bottom-right-radius: 16px;
+      z-index: 100;
+    }
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #fff;
+    }
+
+    /* Usability Tasks Panel */
+    .task-panel {
+      width: 360px;
+      background: #1e293b;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 20px;
+    }
+    .task-panel h3 {
+      font-size: 17px;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .task-panel p {
+      font-size: 13px;
+      color: #94a3b8;
+      margin-bottom: 16px;
+      line-height: 1.4;
+    }
+    .task-item {
+      background: #0f172a;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+    .task-item h4 {
+      font-size: 13.5px;
+      color: #38bdf8;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .task-item p {
+      font-size: 12.5px;
+      color: #cbd5e1;
+      margin: 0;
+    }
+    .btn-desktop {
+      display: block;
+      width: 100%;
+      text-align: center;
+      background: #006ce4;
+      color: white;
+      text-decoration: none;
+      padding: 10px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 13px;
+      margin-top: 14px;
+    }
+    .btn-desktop:hover { background: #0056b3; }
+  </style>
+</head>
+<body>
+
+  <div class="top-nav">
+    <div class="brand-title">
+      <span>📱 Khung Giả Lập Mobile</span>
+      <span class="tag">HCI Nhóm 11</span>
+    </div>
+    <div class="controls">
+      <label style="font-size: 13px; color: #94a3b8;">Chọn Thiết bị:</label>
+      <select id="deviceSelector" onchange="changeDevice()">
+        <option value="iphone15">iPhone 15 Pro (390 x 800)</option>
+        <option value="samsung24">Samsung Galaxy S24 (360 x 780)</option>
+        <option value="ipad">iPad Mini Tablet (560 x 820)</option>
+      </select>
+      <button onclick="reloadIframe()">🔄 Tải lại</button>
+      <a href="index.html" target="_blank" style="text-decoration: none;">
+        <button style="background: var(--primary);">🖥️ Mở Desktop</button>
+      </a>
+    </div>
+  </div>
+
+  <div class="main-workspace">
+    <!-- Khung thiết bị điện thoại -->
+    <div class="device-container">
+      <div class="device-frame" id="deviceFrame">
+        <div class="device-notch"></div>
+        <iframe id="mobileIframe" src="index.html"></iframe>
+      </div>
+    </div>
+
+    <!-- Bảng kịch bản kiểm thử Usability Task dành cho người chấm / người test -->
+    <div class="task-panel">
+      <h3>📋 Kịch bản Usability Test (HCI)</h3>
+      <p>Thực hiện các tác vụ sau trực tiếp trên màn hình điện thoại bên trái để đánh giá tính khả dụng:</p>
+
+      <div class="task-item">
+        <h4>1️⃣ Tác vụ: Khám phá phòng view biển</h4>
+        <p>Bấm chip lọc <b>"View Biển"</b> trên thanh danh mục và kiểm tra các phòng nghỉ ven biển hiển thị mượt mà.</p>
+      </div>
+
+      <div class="task-item">
+        <h4>2️⃣ Tác vụ: Tương tác với Chatbot</h4>
+        <p>Bấm nút chat tròn 💬 góc phải dưới. Bấm nút gợi ý <b>"🌊 Xem phòng view biển"</b> để xem thẻ cuộn ngang <b>Carousel</b>.</p>
+      </div>
+
+      <div class="task-item">
+        <h4>3️⃣ Tác vụ: Đặt phòng tức thì</h4>
+        <p>Nhấp <b>"Xem chi tiết"</b> trên bất kỳ thẻ nào trong Carousel để mở Modal chi tiết và tiến hành đặt phòng.</p>
+      </div>
+
+      <div class="task-item">
+        <h4>4️⃣ Tác vụ: Tìm phòng giá rẻ</h4>
+        <p>Gõ vào ô chat <i>"phòng giá rẻ"</i> hoặc bấm <b>"💰 Phòng dưới 1 triệu"</b> để xem các gợi ý tiết kiệm chi phí.</p>
+      </div>
+
+      <a href="docs_hci/slide_thuyet_trinh.html" target="_blank" class="btn-desktop" style="background: #10b981;">
+        📊 Mở Slide Báo Cáo Thuyết Trình
+      </a>
+      <a href="index.html" class="btn-desktop">
+        🖥️ Trải Nghiệm Toàn Màn Hình Desktop
+      </a>
+    </div>
+  </div>
+
+  <script>
+    function changeDevice() {
+      const type = document.getElementById("deviceSelector").value;
+      const frame = document.getElementById("deviceFrame");
+
+      if (type === "iphone15") {
+        frame.style.width = "390px";
+        frame.style.height = "800px";
+      } else if (type === "samsung24") {
+        frame.style.width = "360px";
+        frame.style.height = "780px";
+      } else if (type === "ipad") {
+        frame.style.width = "560px";
+        frame.style.height = "820px";
+      }
+    }
+
+    function reloadIframe() {
+      const iframe = document.getElementById("mobileIframe");
+      iframe.src = iframe.src;
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,4090 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HaiHotels & Resorts | Nghỉ Dưỡng Thượng Lưu - Hệ Thống Đặt Phòng & Quản Gia AI Chuyên Sâu</title>
+  
+  <!-- Google Fonts: Playfair Display & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       1. LUXURY COLOR PALETTE & REFINED DESIGN SYSTEM (5-STAR RESORT PORTAL)
+       ========================================================================== */
+    :root {
+      --navy-dark: #0a1128;
+      --navy-rich: #111d3d;
+      --navy-soft: #1c2b54;
+      --gold-primary: #c5a880;
+      --gold-light: #dfcaa7;
+      --gold-dark: #9b7e56;
+      --gold-gradient: linear-gradient(135deg, #dfcaa7 0%, #c5a880 50%, #9b7e56 100%);
+      
+      --bg-canvas: #fcfbf9;
+      --bg-cream: #f6f3ee;
+      --card-bg: #ffffff;
+      
+      --text-dark: #191f2c;
+      --text-muted: #5e6678;
+      --text-light: #9aa2b5;
+      
+      --border-subtle: #eae5dc;
+      --border-hover: #d2c3aa;
+      
+      --shadow-subtle: 0 4px 20px rgba(10, 17, 40, 0.04);
+      --shadow-card: 0 10px 30px -4px rgba(10, 17, 40, 0.08), 0 4px 10px -2px rgba(10, 17, 40, 0.03);
+      --shadow-hover: 0 20px 40px -6px rgba(10, 17, 40, 0.16);
+      
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-canvas);
+      color: var(--text-dark);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.65;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, .font-serif {
+      font-family: 'Playfair Display', Georgia, serif;
+      letter-spacing: -0.01em;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* ==========================================================================
+       2. TOP BAR & NAVIGATION
+       ========================================================================== */
+    .top-announcement {
+      background: var(--navy-dark);
+      color: var(--gold-light);
+      font-size: 12.5px;
+      padding: 8px 24px;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      border-bottom: 1px solid rgba(197, 168, 128, 0.2);
+    }
+
+    .top-announcement span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .header-nav {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-subtle);
+      transition: all 0.3s ease;
+    }
+
+    .nav-container {
+      max-width: 1340px;
+      margin: 0 auto;
+      padding: 16px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      cursor: pointer;
+    }
+
+    .brand-crest {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--navy-rich);
+      color: var(--gold-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      border: 1px solid var(--gold-primary);
+      box-shadow: 0 4px 12px rgba(10, 17, 40, 0.15);
+      transition: transform 0.3s ease;
+    }
+
+    .brand-logo:hover .brand-crest {
+      transform: scale(1.06);
+    }
+
+    .brand-name-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--navy-dark);
+      line-height: 1.1;
+      letter-spacing: 0.5px;
+    }
+
+    .brand-tagline {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--gold-dark);
+      font-weight: 600;
+      margin-top: 3px;
+    }
+
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .nav-link {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-dark);
+      transition: color 0.25s ease;
+      cursor: pointer;
+      position: relative;
+      padding: 6px 0;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--gold-primary);
+      transition: width 0.3s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--gold-dark);
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-lookup-order {
+      background: #ffffff;
+      border: 1px solid var(--border-subtle);
+      color: var(--navy-dark);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 9px 16px;
+      border-radius: 30px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.25s ease;
+    }
+
+    .btn-lookup-order:hover {
+      border-color: var(--gold-primary);
+      background: var(--bg-cream);
+    }
+
+    .btn-outline-gold {
+      background: transparent;
+      border: 1px solid var(--gold-primary);
+      color: var(--navy-rich);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 9px 18px;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-outline-gold:hover {
+      background: var(--gold-light);
+      border-color: var(--gold-light);
+      color: var(--navy-dark);
+      transform: translateY(-1px);
+    }
+
+    .btn-member {
+      background: var(--navy-rich);
+      color: #ffffff;
+      border: none;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 10px 20px;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(10, 17, 40, 0.2);
+      transition: all 0.25s ease;
+    }
+
+    .btn-member:hover {
+      background: var(--navy-dark);
+      box-shadow: 0 6px 18px rgba(10, 17, 40, 0.3);
+      transform: translateY(-1px);
+    }
+
+    /* ==========================================================================
+       3. HERO SECTION (EDITORIAL LUXURY)
+       ========================================================================== */
+    .hero-editorial {
+      position: relative;
+      min-height: 560px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 70px 24px 130px 24px;
+      background: 
+        linear-gradient(180deg, rgba(10, 17, 40, 0.72) 0%, rgba(10, 17, 40, 0.9) 100%),
+        url('https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=2200&q=90') center/cover no-repeat;
+      color: #ffffff;
+      overflow: hidden;
+    }
+
+    .hero-inner {
+      max-width: 960px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(223, 202, 167, 0.4);
+      border-radius: 30px;
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      font-weight: 600;
+      margin-bottom: 22px;
+    }
+
+    .hero-editorial h1 {
+      font-size: 50px;
+      font-weight: 700;
+      line-height: 1.22;
+      margin-bottom: 18px;
+      color: #ffffff;
+    }
+
+    .hero-editorial h1 em {
+      font-style: italic;
+      color: var(--gold-light);
+      font-weight: 500;
+    }
+
+    .hero-editorial p {
+      font-size: 17.5px;
+      color: #e2e8f0;
+      max-width: 740px;
+      margin: 0 auto 32px auto;
+      font-weight: 300;
+      line-height: 1.7;
+    }
+
+    /* ==========================================================================
+       4. CONCIERGE SEARCH DOCK (INTERACTIVE DATEPICKER & GUEST SELECTOR)
+       ========================================================================== */
+    .search-dock-container {
+      max-width: 1200px;
+      margin: -65px auto 0 auto;
+      padding: 0 20px;
+      position: relative;
+      z-index: 50;
+    }
+
+    .search-dock {
+      background: #ffffff;
+      border-radius: var(--radius-lg);
+      padding: 12px 18px;
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr 1fr auto;
+      gap: 12px;
+      align-items: center;
+      box-shadow: 0 20px 45px -8px rgba(10, 17, 40, 0.18), 0 1px 3px rgba(0,0,0,0.05);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .search-box-item {
+      padding: 8px 14px;
+      border-radius: var(--radius-md);
+      transition: background 0.2s ease;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #faf8f5;
+      border: 1px solid transparent;
+    }
+
+    .search-box-item:hover, .search-box-item:focus-within {
+      background: #ffffff;
+      border-color: var(--gold-primary);
+    }
+
+    .search-icon-circle {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--bg-cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: var(--navy-rich);
+      flex-shrink: 0;
+    }
+
+    .search-texts {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .search-texts label {
+      font-size: 10.5px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .search-texts input, .search-texts select {
+      border: none;
+      outline: none;
+      background: transparent;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--navy-dark);
+      width: 100%;
+      font-family: inherit;
+    }
+
+    .btn-search-gold {
+      background: var(--navy-dark);
+      color: #ffffff;
+      border: 1px solid var(--gold-primary);
+      padding: 16px 30px;
+      border-radius: var(--radius-md);
+      font-size: 14.5px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 6px 18px rgba(10, 17, 40, 0.25);
+      transition: all 0.25s ease;
+      white-space: nowrap;
+    }
+
+    .btn-search-gold:hover {
+      background: var(--navy-rich);
+      border-color: var(--gold-light);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(10, 17, 40, 0.35);
+    }
+
+    /* ==========================================================================
+       5. 5-STAR QUALITY & TRUST BAR
+       ========================================================================== */
+    .trust-bar {
+      max-width: 1200px;
+      margin: 40px auto 10px auto;
+      padding: 20px 24px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .trust-icon {
+      font-size: 24px;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--bg-cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold-dark);
+      flex-shrink: 0;
+    }
+
+    .trust-text h4 {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--navy-dark);
+      margin-bottom: 2px;
+    }
+
+    .trust-text p {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* ==========================================================================
+       6. ADVANCED FILTER & SORT TOOLBAR
+       ========================================================================== */
+    .collection-section {
+      max-width: 1340px;
+      margin: 40px auto 80px auto;
+      padding: 0 28px;
+    }
+
+    .section-intro {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .section-heading-box span {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--gold-dark);
+      font-weight: 700;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .section-heading-box h2 {
+      font-size: 34px;
+      color: var(--navy-dark);
+      font-weight: 700;
+    }
+
+    .section-heading-box p {
+      font-size: 15px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* Filter Chips Bar */
+    .filter-bar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .filter-btn {
+      background: #ffffff;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      padding: 8px 16px;
+      border-radius: 30px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .filter-btn:hover {
+      border-color: var(--gold-primary);
+      color: var(--navy-dark);
+      background: var(--bg-cream);
+    }
+
+    .filter-btn.active {
+      background: var(--navy-rich);
+      color: #ffffff;
+      border-color: var(--navy-rich);
+      box-shadow: 0 4px 12px rgba(10, 17, 40, 0.15);
+    }
+
+    /* Detailed Toolbar: Price Range & Sorting */
+    .filter-controls-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #ffffff;
+      padding: 14px 20px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-subtle);
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .control-item-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13px;
+    }
+
+    .price-range-slider {
+      accent-color: var(--gold-dark);
+      cursor: pointer;
+    }
+
+    .select-luxury-sort {
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border-subtle);
+      background: #ffffff;
+      font-size: 13px;
+      color: var(--navy-dark);
+      outline: none;
+      font-family: inherit;
+      cursor: pointer;
+    }
+
+    /* ==========================================================================
+       7. HOTEL CARDS GRID (12 LUXURY DESTINATIONS)
+       ========================================================================== */
+    .hotels-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(370px, 1fr));
+      gap: 32px;
+    }
+
+    .hotel-card {
+      background: #ffffff;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-subtle);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-subtle);
+      transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+      position: relative;
+    }
+
+    .hotel-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--border-hover);
+    }
+
+    .hotel-card.highlighted {
+      animation: highlightHotel 2.5s ease-out;
+      border: 2px solid var(--gold-primary);
+    }
+
+    @keyframes highlightHotel {
+      0% { box-shadow: 0 0 0 0 rgba(197, 168, 128, 0.8); }
+      70% { box-shadow: 0 0 0 20px rgba(197, 168, 128, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(197, 168, 128, 0); }
+    }
+
+    .card-media {
+      position: relative;
+      height: 250px;
+      overflow: hidden;
+      background: var(--navy-dark);
+    }
+
+    .card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+
+    .hotel-card:hover .card-img {
+      transform: scale(1.08);
+    }
+
+    .card-badge {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: rgba(10, 17, 40, 0.85);
+      backdrop-filter: blur(8px);
+      color: var(--gold-light);
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 11.5px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      border: 1px solid rgba(197, 168, 128, 0.3);
+    }
+
+    .card-actions-top {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      display: flex;
+      gap: 8px;
+      z-index: 5;
+    }
+
+    .btn-circle {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      color: var(--navy-dark);
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+      transition: all 0.25s ease;
+    }
+
+    .btn-circle:hover {
+      background: #ffffff;
+      transform: scale(1.12);
+      color: var(--gold-dark);
+    }
+
+    .card-content {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .card-meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .card-location {
+      font-size: 13px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .card-rating-badge {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--navy-dark);
+      background: var(--bg-cream);
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+
+    .card-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--navy-dark);
+      margin-bottom: 12px;
+      line-height: 1.35;
+      transition: color 0.2s ease;
+    }
+
+    .hotel-card:hover .card-title {
+      color: var(--gold-dark);
+    }
+
+    .card-features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+
+    .feature-tag {
+      font-size: 12px;
+      color: #3b4252;
+      background: #f4f2ee;
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    .card-footer {
+      margin-top: auto;
+      padding-top: 18px;
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .price-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .price-orig {
+      font-size: 12px;
+      color: var(--text-light);
+      text-decoration: line-through;
+    }
+
+    .price-main {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy-rich);
+    }
+
+    .price-main span {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--text-muted);
+    }
+
+    .card-buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-share-mini {
+      background: var(--bg-cream);
+      border: 1px solid var(--border-subtle);
+      color: var(--navy-dark);
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-share-mini:hover {
+      background: var(--gold-light);
+      border-color: var(--gold-primary);
+    }
+
+    .btn-reserve-mini {
+      background: var(--navy-rich);
+      color: #ffffff;
+      border: none;
+      padding: 9px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-reserve-mini:hover {
+      background: var(--navy-dark);
+      transform: translateY(-1px);
+    }
+
+    /* ==========================================================================
+       8. CURATED EXPERIENCES SECTION
+       ========================================================================== */
+    .experiences-section {
+      background: var(--navy-dark);
+      color: #ffffff;
+      padding: 90px 24px;
+      margin: 60px 0;
+    }
+
+    .experiences-container {
+      max-width: 1320px;
+      margin: 0 auto;
+    }
+
+    .exp-header {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 50px auto;
+    }
+
+    .exp-header span {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      color: var(--gold-light);
+      font-weight: 600;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .exp-header h2 {
+      font-size: 38px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .exp-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+    }
+
+    .exp-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(197, 168, 128, 0.2);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .exp-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--gold-light);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .exp-img-wrap {
+      height: 200px;
+      overflow: hidden;
+    }
+
+    .exp-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+
+    .exp-card:hover .exp-img {
+      transform: scale(1.06);
+    }
+
+    .exp-body {
+      padding: 24px;
+    }
+
+    .exp-body h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: var(--gold-light);
+    }
+
+    .exp-body p {
+      font-size: 14px;
+      color: #cbd5e1;
+      line-height: 1.6;
+    }
+
+    /* ==========================================================================
+       9. GUEST REVIEWS & WRITE A REVIEW FORM
+       ========================================================================== */
+    .reviews-section {
+      max-width: 1320px;
+      margin: 80px auto;
+      padding: 0 28px;
+    }
+
+    .reviews-header-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .btn-write-review {
+      background: #ffffff;
+      border: 1px solid var(--gold-primary);
+      color: var(--navy-dark);
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-write-review:hover {
+      background: var(--gold-light);
+    }
+
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      margin-top: 36px;
+    }
+
+    .review-card {
+      background: #ffffff;
+      padding: 32px 28px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-subtle);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .review-stars {
+      color: #f59e0b;
+      font-size: 16px;
+      margin-bottom: 14px;
+    }
+
+    .review-text {
+      font-size: 14.5px;
+      color: var(--text-dark);
+      font-style: italic;
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+
+    .review-author {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .author-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--gold-light);
+    }
+
+    .author-info h4 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy-dark);
+    }
+
+    .author-info p {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* Review Modal Form */
+    .form-group-review {
+      margin-bottom: 16px;
+    }
+
+    .form-group-review label {
+      display: block;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--navy-dark);
+      margin-bottom: 6px;
+    }
+
+    .form-control-rev {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 13.5px;
+      outline: none;
+    }
+
+    .form-control-rev:focus {
+      border-color: var(--gold-primary);
+    }
+
+    /* ==========================================================================
+       10. FOOTER
+       ========================================================================== */
+    .site-footer {
+      background: var(--navy-dark);
+      color: #94a3b8;
+      padding: 70px 24px 30px 24px;
+      border-top: 1px solid rgba(197, 168, 128, 0.2);
+    }
+
+    .footer-container {
+      max-width: 1320px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1.5fr;
+      gap: 40px;
+      margin-bottom: 50px;
+    }
+
+    .footer-brand h3 {
+      font-size: 26px;
+      color: #ffffff;
+      margin-bottom: 12px;
+    }
+
+    .footer-brand p {
+      font-size: 13.5px;
+      line-height: 1.7;
+      max-width: 360px;
+    }
+
+    .footer-col h4 {
+      font-size: 14.5px;
+      color: #ffffff;
+      font-weight: 700;
+      margin-bottom: 18px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 13.5px;
+    }
+
+    .footer-links a:hover {
+      color: var(--gold-light);
+    }
+
+    .footer-bottom {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding-top: 25px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12.5px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    /* ==========================================================================
+       11. VIRTUAL CONCIERGE WIDGET (DUAL-MODE AI ENGINE: GEMINI/GPT-4o + LOCAL)
+       ========================================================================== */
+    .concierge-fab-wrap {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    .concierge-tooltip {
+      background: #ffffff;
+      color: var(--navy-dark);
+      padding: 10px 18px;
+      border-radius: 30px;
+      box-shadow: 0 10px 30px rgba(10, 17, 40, 0.18);
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      border: 1px solid var(--border-subtle);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      animation: floatTooltip 3s infinite ease-in-out;
+      transition: all 0.3s ease;
+    }
+
+    @keyframes floatTooltip {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+
+    .concierge-fab {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: var(--navy-dark);
+      border: 2px solid var(--gold-primary);
+      box-shadow: 0 12px 28px rgba(10, 17, 40, 0.3);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .concierge-fab:hover {
+      transform: scale(1.08);
+    }
+
+    .concierge-avatar-img {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .concierge-online-dot {
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+      width: 14px;
+      height: 14px;
+      background: #10b981;
+      border-radius: 50%;
+      border: 2px solid #ffffff;
+    }
+
+    /* Concierge Window (Chatbox) */
+    .concierge-window {
+      position: fixed;
+      bottom: 100px;
+      right: 28px;
+      width: 450px;
+      max-width: calc(100vw - 32px);
+      height: 640px;
+      max-height: calc(100vh - 120px);
+      background: #ffffff;
+      border-radius: var(--radius-lg);
+      box-shadow: 0 25px 60px -10px rgba(10, 17, 40, 0.3), 0 0 0 1px rgba(0,0,0,0.06);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 1001;
+      opacity: 0;
+      transform: translateY(24px) scale(0.94);
+      pointer-events: none;
+      transition: all 0.32s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+
+    .concierge-window.open {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: all;
+    }
+
+    .concierge-header {
+      background: var(--navy-dark);
+      color: #ffffff;
+      padding: 14px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(197, 168, 128, 0.25);
+    }
+
+    .concierge-profile {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .concierge-profile-pic {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1.5px solid var(--gold-light);
+    }
+
+    .concierge-meta h4 {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.2;
+    }
+
+    .concierge-meta p {
+      font-size: 11px;
+      color: var(--gold-light);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 2px;
+    }
+
+    .concierge-header-actions {
+      display: flex;
+      gap: 6px;
+    }
+
+    .btn-header-act {
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: #ffffff;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 13px;
+      transition: background 0.2s;
+    }
+
+    .btn-header-act:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    /* Mode Banner Inside Chat */
+    .ai-mode-status-bar {
+      background: #f1f5f9;
+      padding: 6px 14px;
+      font-size: 11.5px;
+      color: #475569;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .ai-mode-status-bar b {
+      color: var(--navy-dark);
+    }
+
+    .btn-switch-engine {
+      color: var(--gold-dark);
+      font-weight: 700;
+      text-decoration: underline;
+      cursor: pointer;
+      background: transparent;
+      border: none;
+      font-size: 11.5px;
+    }
+
+    /* Messages Area */
+    .concierge-messages {
+      flex: 1;
+      padding: 18px;
+      overflow-y: auto;
+      background: #faf8f5;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .msg-bubble-wrap {
+      display: flex;
+      flex-direction: column;
+      max-width: 88%;
+      animation: msgPop 0.25s ease-out;
+    }
+
+    @keyframes msgPop {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .msg-concierge-wrap {
+      align-self: flex-start;
+    }
+
+    .msg-guest-wrap {
+      align-self: flex-end;
+    }
+
+    .msg-bubble {
+      padding: 13px 18px;
+      border-radius: 18px;
+      font-size: 13.5px;
+      line-height: 1.6;
+      word-break: break-word;
+    }
+
+    .msg-concierge {
+      background: #ffffff;
+      color: var(--navy-dark);
+      border-bottom-left-radius: 4px;
+      box-shadow: 0 4px 14px rgba(10, 17, 40, 0.05);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .msg-guest {
+      background: var(--navy-rich);
+      color: #ffffff;
+      border-bottom-right-radius: 4px;
+      box-shadow: 0 4px 14px rgba(10, 17, 40, 0.15);
+    }
+
+    .msg-time-tag {
+      font-size: 10.5px;
+      color: var(--text-light);
+      margin-top: 4px;
+      padding: 0 4px;
+    }
+
+    /* Quick Suggestion Pills */
+    .concierge-suggestions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .suggestion-pill {
+      background: #ffffff;
+      border: 1px solid var(--border-subtle);
+      color: var(--navy-rich);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+      transition: all 0.2s ease;
+    }
+
+    .suggestion-pill:hover {
+      background: var(--gold-light);
+      border-color: var(--gold-primary);
+      color: var(--navy-dark);
+      transform: translateY(-1px);
+    }
+
+    /* Carousel In Chat */
+    .chat-hotel-carousel {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding: 10px 4px;
+      scrollbar-width: thin;
+    }
+
+    .carousel-card {
+      min-width: 210px;
+      max-width: 210px;
+      background: #ffffff;
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      flex-shrink: 0;
+    }
+
+    .carousel-thumb {
+      width: 100%;
+      height: 110px;
+      object-fit: cover;
+    }
+
+    .carousel-info {
+      padding: 10px;
+    }
+
+    .carousel-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--navy-dark);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .carousel-price {
+      font-size: 13px;
+      font-weight: 800;
+      color: #b91c1c;
+      margin: 4px 0 8px 0;
+    }
+
+    .btn-carousel-book {
+      width: 100%;
+      background: var(--navy-rich);
+      color: #ffffff;
+      border: none;
+      padding: 6px;
+      border-radius: 6px;
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* Booking Confirmation Card In Chat */
+    .voucher-card {
+      background: #fdfbf7;
+      border: 1.5px dashed var(--gold-primary);
+      border-radius: 12px;
+      padding: 14px;
+      margin-top: 10px;
+    }
+
+    .voucher-code {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      background: var(--navy-dark);
+      color: var(--gold-light);
+      padding: 4px 10px;
+      border-radius: 6px;
+      margin: 6px 0;
+      font-size: 13px;
+    }
+
+    /* Typing Dots */
+    .typing-wave {
+      display: none;
+      align-items: center;
+      gap: 4px;
+      padding: 10px 16px;
+      background: #ffffff;
+      border-radius: 16px;
+      width: fit-content;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .typing-wave.active {
+      display: flex;
+    }
+
+    .typing-dot {
+      width: 7px;
+      height: 7px;
+      background: var(--gold-dark);
+      border-radius: 50%;
+      animation: typingBounce 1.4s infinite ease-in-out both;
+    }
+
+    .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+    .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+    @keyframes typingBounce {
+      0%, 80%, 100% { transform: scale(0); }
+      40% { transform: scale(1); }
+    }
+
+    /* Concierge Input Area */
+    .concierge-input-dock {
+      padding: 12px 16px;
+      background: #ffffff;
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .concierge-input {
+      flex: 1;
+      border: 1px solid var(--border-subtle);
+      background: #faf8f5;
+      padding: 12px 18px;
+      border-radius: 25px;
+      font-size: 13.5px;
+      outline: none;
+      font-family: inherit;
+      transition: all 0.2s ease;
+    }
+
+    .concierge-input:focus {
+      border-color: var(--gold-primary);
+      background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(197, 168, 128, 0.2);
+    }
+
+    .btn-send-message {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--navy-dark);
+      border: 1px solid var(--gold-primary);
+      color: var(--gold-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-send-message:hover {
+      background: var(--navy-rich);
+      transform: scale(1.06);
+    }
+
+    /* ==========================================================================
+       12. MODAL CHI TIẾT PHÒNG VỚI GALLERY ĐA ẢNH
+       ========================================================================== */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 17, 40, 0.75);
+      backdrop-filter: blur(8px);
+      z-index: 1100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s ease;
+    }
+
+    .modal-backdrop.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal-window {
+      background: #ffffff;
+      border-radius: var(--radius-lg);
+      max-width: 720px;
+      width: 100%;
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+      transform: scale(0.94);
+      transition: transform 0.3s ease;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal-backdrop.active .modal-window {
+      transform: scale(1);
+    }
+
+    .modal-gallery-wrap {
+      position: relative;
+      background: #000;
+    }
+
+    .modal-hero-img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      display: block;
+      transition: opacity 0.3s;
+    }
+
+    .modal-thumbs-row {
+      display: flex;
+      gap: 8px;
+      padding: 10px 16px;
+      background: #ffffff;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .thumb-btn {
+      width: 70px;
+      height: 48px;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 2px solid transparent;
+      cursor: pointer;
+      padding: 0;
+      background: none;
+    }
+
+    .thumb-btn.active {
+      border-color: var(--gold-dark);
+    }
+
+    .thumb-btn img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(10, 17, 40, 0.7);
+      color: #ffffff;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+      z-index: 10;
+    }
+
+    .modal-close-btn:hover {
+      background: rgba(10, 17, 40, 0.95);
+    }
+
+    .modal-details {
+      padding: 24px;
+      overflow-y: auto;
+    }
+
+    .modal-details h3 {
+      font-size: 24px;
+      color: var(--navy-dark);
+      margin-bottom: 6px;
+    }
+
+    .modal-details p {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
+
+    .amenities-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .amenity-point {
+      font-size: 13.5px;
+      color: var(--navy-dark);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .amenity-point span {
+      color: var(--gold-dark);
+      font-weight: bold;
+    }
+
+    .modal-bottom-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    /* ==========================================================================
+       13. MODAL ĐẶT PHÒNG ĐẦY ĐỦ (REAL CHECKOUT FLOW & VIETQR NAPAS)
+       ========================================================================== */
+    .checkout-window {
+      background: #ffffff;
+      border-radius: var(--radius-lg);
+      max-width: 640px;
+      width: 100%;
+      padding: 30px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+      position: relative;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .checkout-form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .form-group-full {
+      grid-column: 1 / -1;
+    }
+
+    .form-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--navy-dark);
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      font-size: 13.5px;
+      outline: none;
+      font-family: inherit;
+    }
+
+    .form-input:focus {
+      border-color: var(--gold-primary);
+    }
+
+    .price-breakdown-card {
+      background: var(--bg-cream);
+      border-radius: 10px;
+      padding: 16px;
+      margin: 18px 0;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .breakdown-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      margin-bottom: 6px;
+      color: var(--text-muted);
+    }
+
+    .breakdown-total {
+      display: flex;
+      justify-content: space-between;
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--navy-dark);
+      padding-top: 8px;
+      border-top: 1px dashed #cbd5e1;
+      margin-top: 8px;
+    }
+
+    .payment-options-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 12px 0 20px 0;
+    }
+
+    .payment-option-card {
+      border: 1.5px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 12px 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .payment-option-card.selected {
+      border-color: var(--navy-dark);
+      background: var(--bg-cream);
+      color: var(--navy-dark);
+    }
+
+    /* QR Code Payment Area */
+    .vietqr-box {
+      display: none;
+      text-align: center;
+      padding: 14px;
+      background: #ffffff;
+      border: 1px dashed var(--gold-primary);
+      border-radius: 10px;
+      margin-bottom: 18px;
+    }
+
+    .vietqr-box.active {
+      display: block;
+    }
+
+    /* ==========================================================================
+       14. MODAL TRA CỨU ĐƠN PHÒNG (BOOKING LOOKUP SYSTEM)
+       ========================================================================== */
+    .lookup-window {
+      background: #ffffff;
+      border-radius: var(--radius-lg);
+      max-width: 600px;
+      width: 100%;
+      padding: 30px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+      position: relative;
+      max-height: 85vh;
+      overflow-y: auto;
+    }
+
+    .lookup-input-bar {
+      display: flex;
+      gap: 10px;
+      margin: 18px 0;
+    }
+
+    .lookup-results-container {
+      margin-top: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .order-item-card {
+      background: #fdfbf7;
+      border: 1px solid var(--border-subtle);
+      border-left: 4px solid var(--gold-dark);
+      padding: 16px;
+      border-radius: 8px;
+    }
+
+    /* ==========================================================================
+       15. MODAL CẤU HÌNH MÔ HÌNH AI (SETTINGS DRAWER)
+       ========================================================================== */
+    .ai-settings-window {
+      background: #ffffff;
+      border-radius: var(--radius-lg);
+      max-width: 520px;
+      width: 100%;
+      padding: 28px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+      position: relative;
+    }
+
+    .model-selector-box {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 16px 0;
+    }
+
+    .model-choice-radio {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px;
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .model-choice-radio.active {
+      border-color: var(--gold-primary);
+      background: #fdfbf7;
+    }
+
+    .model-choice-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--navy-dark);
+    }
+
+    .model-choice-desc {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Modal Chia Sẻ Link */
+    .share-window {
+      background: #ffffff;
+      border-radius: var(--radius-lg);
+      max-width: 500px;
+      width: 100%;
+      padding: 30px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+      position: relative;
+    }
+
+    .share-link-row {
+      display: flex;
+      gap: 10px;
+      margin: 18px 0;
+    }
+
+    .share-link-field {
+      flex: 1;
+      padding: 12px 14px;
+      background: #f8fafc;
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      font-size: 13.5px;
+      color: var(--navy-dark);
+      outline: none;
+    }
+
+    .btn-copy {
+      background: var(--navy-dark);
+      color: #ffffff;
+      border: 1px solid var(--gold-primary);
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .social-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .btn-social {
+      background: var(--bg-cream);
+      border: 1px solid var(--border-subtle);
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      color: var(--navy-dark);
+    }
+
+    /* Toast */
+    .toast-popup {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      background: var(--navy-dark);
+      color: #ffffff;
+      border: 1px solid var(--gold-primary);
+      padding: 14px 22px;
+      border-radius: 30px;
+      font-size: 13.5px;
+      font-weight: 600;
+      box-shadow: 0 10px 30px rgba(10, 17, 40, 0.3);
+      z-index: 2000;
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: all 0.3s ease;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .toast-popup.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    #confettiCanvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1999;
+    }
+
+    @media (max-width: 1024px) {
+      .search-dock {
+        grid-template-columns: 1fr 1fr;
+      }
+      .trust-bar {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .exp-grid, .reviews-grid {
+        grid-template-columns: 1fr;
+      }
+      .footer-container {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero-editorial h1 {
+        font-size: 34px;
+      }
+      .search-dock {
+        grid-template-columns: 1fr;
+      }
+      .hotels-grid {
+        grid-template-columns: 1fr;
+      }
+      .nav-menu {
+        display: none;
+      }
+      .trust-bar {
+        grid-template-columns: 1fr;
+      }
+      .checkout-form-grid {
+        grid-template-columns: 1fr;
+      }
+      .payment-options-grid {
+        grid-template-columns: 1fr;
+      }
+      .footer-container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Pháo hoa ăn mừng khi đặt phòng thành công -->
+  <canvas id="confettiCanvas"></canvas>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast-popup">
+    <span id="toastIcon">✨</span>
+    <span id="toastMsg">Thao tác thành công</span>
+  </div>
+
+  <!-- Thanh thông báo đặc quyền thượng lưu -->
+  <div class="top-announcement">
+    <span>💎 <b>Đặc Quyền Hội Viên HaiHotels:</b> Tặng đêm nghỉ dưỡng thứ 3 khi đặt từ 2 đêm tại các khu nghỉ dưỡng Bãi Biển</span>
+    <span>•</span>
+    <span>📞 Tổng đài Quản gia VIP: <b>1800 6868</b> (Miễn cước 24/7)</span>
+  </div>
+
+  <!-- HEADER NAVIGATION -->
+  <header class="header-nav">
+    <div class="nav-container">
+      <div class="brand-logo" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+        <div class="brand-crest">H</div>
+        <div class="brand-name-group">
+          <span class="brand-name">HaiHotels</span>
+          <span class="brand-tagline">Hotels & Resorts Collection</span>
+        </div>
+      </div>
+
+      <ul class="nav-menu">
+        <li class="nav-link" onclick="scrollToSection('collectionSection')">Bộ Sưu Tập Khách Sạn</li>
+        <li class="nav-link" onclick="scrollToSection('experienceSection')">Trải Nghiệm Độc Bản</li>
+        <li class="nav-link" onclick="scrollToSection('reviewsSection')">Cảm Nhận Du Khách</li>
+        <li><a href="hotel-booking-hci-group11/mobile.html" class="nav-link" style="color: var(--gold-dark); font-weight: 600;">📱 Khung Điện Thoại</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <button class="btn-lookup-order" onclick="openLookupModal()" title="Kiểm tra đơn phòng đã đặt">
+          🔍 Tra Cứu Đơn
+        </button>
+        <button class="btn-outline-gold" onclick="openConciergeChat('Dạ em cần tư vấn phòng nghỉ dưỡng 5 sao')">
+          🛎️ Quản Gia Trực Tuyến
+        </button>
+        <button class="btn-member" onclick="showToast('✨ Chào mừng Quý khách đến với HaiHotels Club!')">
+          Hội Viên Elite
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero-editorial">
+    <div class="hero-inner">
+      <div class="hero-eyebrow">✦ BỘ SƯU TẬP NGHỈ DƯỠNG BIỂU TƯỢNG 5 SAO ✦</div>
+      <h1>Nơi Mọi Kỳ Nghỉ Trong Mơ<br><em>Trở Thành Hiện Thực</em></h1>
+      <p>Khám phá 12 khách sạn & khu nghỉ dưỡng sang trọng bậc nhất tại Đà Nẵng, Phú Quốc, Sa Pa, Đà Lạt, Nha Trang, Sài Gòn, Hà Nội. Tận hưởng dịch vụ quản gia tận tâm và trải nghiệm nghỉ dưỡng hoàn mỹ.</p>
+    </div>
+  </section>
+
+  <!-- CONCIERGE SEARCH DOCK -->
+  <div class="search-dock-container">
+    <div class="search-dock">
+      <div class="search-box-item">
+        <div class="search-icon-circle">📍</div>
+        <div class="search-texts">
+          <label>Điểm Đến</label>
+          <input type="text" id="destinationInput" placeholder="Đà Nẵng, Phú Quốc, Sa Pa..." value="Đà Nẵng">
+        </div>
+      </div>
+
+      <div class="search-box-item">
+        <div class="search-icon-circle">📅</div>
+        <div class="search-texts">
+          <label>Nhận Phòng</label>
+          <input type="date" id="checkinInput">
+        </div>
+      </div>
+
+      <div class="search-box-item">
+        <div class="search-icon-circle">📅</div>
+        <div class="search-texts">
+          <label>Trả Phòng</label>
+          <input type="date" id="checkoutInput">
+        </div>
+      </div>
+
+      <div class="search-box-item">
+        <div class="search-icon-circle">👥</div>
+        <div class="search-texts">
+          <label>Số Khách</label>
+          <select id="guestCountSelect">
+            <option value="2">2 Khách lớn · 1 Phòng Suite</option>
+            <option value="1">1 Khách · 1 Phòng Deluxe</option>
+            <option value="4">Gia đình (4 Khách) · Villa Biển</option>
+          </select>
+        </div>
+      </div>
+
+      <button class="btn-search-gold" onclick="triggerSearch()">
+        <span>Tìm Phòng</span> ➔
+      </button>
+    </div>
+  </div>
+
+  <!-- TRUST BAR -->
+  <div class="trust-bar">
+    <div class="trust-item">
+      <div class="trust-icon">⭐</div>
+      <div class="trust-text">
+        <h4>4.95 / 5 Điểm Hài Lòng</h4>
+        <p>Bình chọn từ hơn 28.000+ du khách trong và ngoài nước</p>
+      </div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-icon">🛡️</div>
+      <div class="trust-text">
+        <h4>Cam Kết Giá Trực Tiếp</h4>
+        <p>Đảm bảo mức giá ưu đãi nhất khi đặt trực tiếp tại hệ thống</p>
+      </div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-icon">🛎️</div>
+      <div class="trust-text">
+        <h4>Dịch Vụ Quản Gia 24/7</h4>
+        <p>Đội ngũ chăm sóc khách hàng cá nhân phục vụ chu đáo mọi yêu cầu</p>
+      </div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-icon">💳</div>
+      <div class="trust-text">
+        <h4>Linh Hoạt Đổi Lịch</h4>
+        <p>Miễn phí hủy hoặc thay đổi ngày trước 48 giờ nhận phòng</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 12 LUXURY HOTELS COLLECTION WITH ADVANCED TOOLBAR -->
+  <main class="collection-section" id="collectionSection">
+    <div class="section-intro">
+      <div class="section-heading-box">
+        <span>BỘ SƯU TẬP DANH TIẾNG</span>
+        <h2>Khách Sạn & Khu Nghỉ Dưỡng HaiHotels</h2>
+        <p>Mỗi điểm đến là một kiệt tác kiến trúc hài hòa giữa thiên nhiên tuyệt mỹ và tiện nghi thượng lưu</p>
+      </div>
+
+      <div class="filter-bar">
+        <button class="filter-btn active" onclick="applyCategoryFilter('all', this)">Tất Cả (12 Điểm Đến)</button>
+        <button class="filter-btn" onclick="applyCategoryFilter('sea', this)">Bãi Biển & Đảo Ngọc</button>
+        <button class="filter-btn" onclick="applyCategoryFilter('mountain', this)">Cao Nguyên & Săn Mây</button>
+        <button class="filter-btn" onclick="applyCategoryFilter('city', this)">Trung Tâm Đô Thị</button>
+        <button class="filter-btn" onclick="applyCategoryFilter('luxury', this)">Villa Tổng Thống</button>
+      </div>
+    </div>
+
+    <!-- Advanced Toolbar: Price Range Slider & Sorting -->
+    <div class="filter-controls-row">
+      <div class="control-item-wrap">
+        <b>Khoảng giá tối đa:</b>
+        <input type="range" id="priceRangeSlider" class="price-range-slider" min="800000" max="5000000" step="200000" value="5000000" oninput="updatePriceSlider(this.value)">
+        <span id="priceSliderLabel" style="font-weight: 700; color: var(--gold-dark);">Tất cả (Dưới 5.000.000₫)</span>
+      </div>
+
+      <div class="control-item-wrap">
+        <b>Sắp xếp:</b>
+        <select id="sortSelect" class="select-luxury-sort" onchange="applySorting(this.value)">
+          <option value="recommended">Gợi ý hàng đầu</option>
+          <option value="price-asc">Giá: Thấp đến Cao</option>
+          <option value="price-desc">Giá: Cao đến Thấp</option>
+          <option value="rating-desc">Đánh giá cao nhất</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Cards Grid -->
+    <div class="hotels-grid" id="hotelsGrid">
+      <!-- Tự động kết xuất qua JavaScript -->
+    </div>
+  </main>
+
+  <!-- CURATED EXPERIENCES -->
+  <section class="experiences-section" id="experienceSection">
+    <div class="experiences-container">
+      <div class="exp-header">
+        <span>ĐẶC QUYỀN TRẢI NGHIỆM</span>
+        <h2>Những Khoảnh Khắc Khó Quên Tại HaiHotels</h2>
+      </div>
+
+      <div class="exp-grid">
+        <div class="exp-card">
+          <div class="exp-img-wrap">
+            <img class="exp-img" src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=800&q=80" alt="Spa & Wellness" onerror="handleImgFallback(this)">
+          </div>
+          <div class="exp-body">
+            <h3>Trị Liệu Thân Tâm & Spa Thảo Mộc</h3>
+            <p>Thả lỏng tinh thần với các bài massage trị liệu cổ truyền, phòng xông hơi đá muối Himalaya và tinh dầu organic chiết xuất tự nhiên.</p>
+          </div>
+        </div>
+
+        <div class="exp-card">
+          <div class="exp-img-wrap">
+            <img class="exp-img" src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80" alt="Fine Dining" onerror="handleImgFallback(this)">
+          </div>
+          <div class="exp-body">
+            <h3>Ẩm Thực Thượng Hạng Bên Biển</h3>
+            <p>Bữa tối riêng tư dưới ánh nến và tiếng sóng vỗ rì rào, thực đơn Michelin Selection được chế biến tinh tế bởi bếp trưởng quốc tế.</p>
+          </div>
+        </div>
+
+        <div class="exp-card">
+          <div class="exp-img-wrap">
+            <img class="exp-img" src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80" alt="Private Tours" onerror="handleImgFallback(this)">
+          </div>
+          <div class="exp-body">
+            <h3>Hành Trình Khám Phá Địa Phương</h3>
+            <p>Du thuyền ngắm hoàng hôn, tour trà chiều trên mây tại Sa Pa, hay dạo quanh phố cổ cùng quản gia am hiểu tường tận văn hóa bản địa.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GUEST REVIEWS SECTION -->
+  <section class="reviews-section" id="reviewsSection">
+    <div class="reviews-header-wrap">
+      <div class="section-heading-box">
+        <span>LỜI KHEN TẶNG TỪ DU KHÁCH</span>
+        <h2>Cảm Nhận Từ Những Kỳ Nghỉ Thực Tế</h2>
+      </div>
+      <button class="btn-write-review" onclick="openWriteReviewModal()">✍️ Gửi Đánh Giá Của Bạn</button>
+    </div>
+
+    <div class="reviews-grid" id="reviewsContainer">
+      <!-- Kết xuất danh sách đánh giá -->
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <h3>HaiHotels & Resorts</h3>
+        <p>Chuỗi khách sạn và khu nghỉ dưỡng 5 sao biểu tượng, định hình phong cách nghỉ dưỡng thượng lưu và hiếu khách trứ danh tại Việt Nam.</p>
+        <p style="margin-top: 14px; font-size: 13px; color: var(--gold-light);">Hotline hỗ trợ: <b>1800 6868</b> · concierge@haihotels.com</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Điểm Đến Nổi Bật</h4>
+        <ul class="footer-links">
+          <li><a href="javascript:void(0)" onclick="searchCity('Đà Nẵng')">HaiHotels Đà Nẵng</a></li>
+          <li><a href="javascript:void(0)" onclick="searchCity('Phú Quốc')">HaiHotels Phú Quốc</a></li>
+          <li><a href="javascript:void(0)" onclick="searchCity('Sa Pa')">HaiHotels Sa Pa</a></li>
+          <li><a href="javascript:void(0)" onclick="searchCity('Đà Lạt')">HaiHotels Đà Lạt</a></li>
+          <li><a href="javascript:void(0)" onclick="searchCity('Nha Trang')">HaiHotels Nha Trang</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Về Chúng Tôi</h4>
+        <ul class="footer-links">
+          <li><a href="#">Câu Chuyện Thương Hiệu</a></li>
+          <li><a href="#">HaiHotels Elite Club</a></li>
+          <li><a href="#">Phát Triển Bền Vững</a></li>
+          <li><a href="#">Cơ Hội Nghề Nghiệp</a></li>
+          <li><a href="#">Chính Sách Bảo Mật</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Bản Tin Đặc Quyền</h4>
+        <p style="font-size: 13px; margin-bottom: 14px;">Đăng ký để nhận thông tin ưu đãi kỳ nghỉ riêng tư dành riêng cho quý hội viên.</p>
+        <div style="display: flex; gap: 6px;">
+          <input type="email" placeholder="Email của Quý khách..." style="padding: 10px 14px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.08); color: white; font-size: 13px; flex: 1;">
+          <button style="background: var(--gold-primary); color: var(--navy-dark); border: none; padding: 10px 16px; border-radius: 6px; font-weight: 700; cursor: pointer;" onclick="showToast('Cảm ơn Quý khách đã đăng ký bản tin ưu đãi!')">Gửi</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>© 2026 HaiHotels & Resorts Collection. Toàn bộ bản quyền được bảo lưu. Đồ án HCI Nhóm 11.</div>
+      <div style="display: flex; gap: 16px;">
+        <span>Visa / Mastercard</span>
+        <span>JCB</span>
+        <span>VietQR Napas</span>
+        <span>MoMo</span>
+        <span>VNPAY</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================================================
+       CONCIERGE TRỰC TUYẾN "MAI LINH" (DUAL-MODE AI ENGINE: GEMINI 1.5 PRO / LOCAL)
+       ========================================================================== -->
+  <div class="concierge-fab-wrap">
+    <div class="concierge-tooltip" id="conciergeTooltip" onclick="toggleConcierge()">
+      <span>🛎️</span> <b>Cần hỗ trợ chọn phòng hay gợi ý chuyến đi? Mai Linh luôn sẵn sàng!</b>
+    </div>
+
+    <div class="concierge-fab" onclick="toggleConcierge()" title="Trò chuyện cùng Quản gia Mai Linh">
+      <img class="concierge-avatar-img" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&q=80" alt="Quản gia Mai Linh" onerror="handleAvatarFallback(this)">
+      <span class="concierge-online-dot"></span>
+    </div>
+  </div>
+
+  <div class="concierge-window" id="conciergeWindow">
+    <div class="concierge-header">
+      <div class="concierge-profile">
+        <img class="concierge-profile-pic" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&q=80" alt="Quản gia Mai Linh" onerror="handleAvatarFallback(this)">
+        <div class="concierge-meta">
+          <h4>Mai Linh · Quản Gia HaiHotels</h4>
+          <p>🟢 Đang trực tuyến · Sẵn sàng hỗ trợ 24/7</p>
+        </div>
+      </div>
+      <div class="concierge-header-actions">
+        <button class="btn-header-act" onclick="openAISettingsModal()" title="Cài đặt mô hình AI (Gemini / GPT-4o / Local)">⚙️</button>
+        <button class="btn-header-act" id="soundToggleBtn" onclick="toggleMessageAudio()" title="Bật / Tắt âm thanh">🔔</button>
+        <button class="btn-header-act" onclick="toggleConcierge()" title="Đóng cửa sổ">✕</button>
+      </div>
+    </div>
+
+    <!-- AI Mode Indicator -->
+    <div class="ai-mode-status-bar">
+      <span>Động cơ: <b id="currentEngineLabel">Bộ Não Quản Gia Cấp Cao (HaiHotels Brain)</b></span>
+      <button class="btn-switch-engine" onclick="openAISettingsModal()">Nâng Cấp API Model</button>
+    </div>
+
+    <!-- Messages List -->
+    <div class="concierge-messages" id="messagesContainer">
+      <div class="msg-bubble-wrap msg-concierge-wrap">
+        <div class="msg-bubble msg-concierge">
+          Kính chào Quý khách! Em là <b>Mai Linh</b>, Quản gia trực tuyến tại <b>HaiHotels & Resorts</b>. Rất hân hạnh được đồng hành cùng Quý khách hôm nay. 🌸<br><br>
+          Em được đào tạo chuyên sâu về toàn bộ 12 khu nghỉ dưỡng 5 sao, chính sách giá, lịch trình du lịch, ẩm thực địa phương, và sẵn sàng giải đáp bất kỳ thắc mắc nào của Quý khách. Hôm nay Quý khách dự định ghé thăm điểm đến nào ạ?
+        </div>
+        <span class="msg-time-tag">Vừa xong</span>
+      </div>
+
+      <div class="concierge-suggestions" id="initialSuggestions">
+        <button class="suggestion-pill" onclick="sendGuestMessage('So sánh phòng tại Đà Nẵng và Phú Quốc')">⚖️ So sánh Đà Nẵng vs Phú Quốc</button>
+        <button class="suggestion-pill" onclick="sendGuestMessage('Khách sạn nào phù hợp cho gia đình có trẻ em?')">👨‍👩‍👧‍👦 Đi cùng gia đình & trẻ nhỏ</button>
+        <button class="suggestion-pill" onclick="sendGuestMessage('Lên lịch trình 3 ngày 2 đêm tại Đà Nẵng')">📅 Lịch trình 3N2Đ chi tiết</button>
+        <button class="suggestion-pill" onclick="sendGuestMessage('Chính sách nhận phòng sớm và đưa đón sân bay thế nào?')">🚗 Chính sách đưa đón & check-in</button>
+        <button class="suggestion-pill" onclick="sendGuestMessage('Chia sẻ link đặt phòng cho bạn bè')">🔗 Lấy link chia sẻ</button>
+      </div>
+
+      <div class="typing-wave" id="typingWave">
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+      </div>
+    </div>
+
+    <!-- Input Bar -->
+    <div class="concierge-input-dock">
+      <input type="text" id="conciergeInputField" class="concierge-input" placeholder="Nhắn tin với Quản gia Mai Linh..." onkeydown="handleInputKey(event)">
+      <button class="btn-send-message" onclick="submitGuestMessage()" title="Gửi tin nhắn">➤</button>
+    </div>
+  </div>
+
+  <!-- MODAL XEM CHI TIẾT PHÒNG (MULTI-PHOTO GALLERY) -->
+  <div class="modal-backdrop" id="roomDetailModal" onclick="closeRoomModalOnBackdrop(event)">
+    <div class="modal-window">
+      <div class="modal-gallery-wrap">
+        <img id="detailModalImg" class="modal-hero-img" src="" alt="Room Detail" onerror="handleImgFallback(this)">
+        <button class="modal-close-btn" onclick="closeRoomModal()">✕</button>
+      </div>
+
+      <!-- Thumbnails Switcher -->
+      <div class="modal-thumbs-row" id="modalThumbsRow"></div>
+
+      <div class="modal-details">
+        <h3 id="detailModalTitle">Tên Khách Sạn & Phòng</h3>
+        <p id="detailModalDesc">Mô tả chi tiết phòng nghỉ dưỡng.</p>
+        
+        <div class="amenities-list" id="detailModalAmenities"></div>
+
+        <div class="modal-bottom-bar">
+          <div>
+            <span style="font-size: 12px; color: var(--text-muted); text-transform: uppercase;">Giá Trọn Gói / Đêm</span>
+            <div id="detailModalPrice" style="font-size: 22px; font-weight: 800; color: var(--navy-rich);">0 ₫</div>
+          </div>
+          <div style="display: flex; gap: 10px;">
+            <button class="btn-outline-gold" onclick="openShareModalForCurrentDetail()">🔗 Chia Sẻ</button>
+            <button class="btn-member" onclick="startCheckoutFlow()">⚡ Đặt Phòng Ngay</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL ĐẶT PHÒNG THỰC TẾ (REAL BOOKING CHECKOUT FLOW & VIETQR) -->
+  <div class="modal-backdrop" id="checkoutModal" onclick="closeCheckoutOnBackdrop(event)">
+    <div class="checkout-window">
+      <button class="modal-close-btn" style="top: 18px; right: 18px; background: #e2e8f0; color: #1e293b;" onclick="closeCheckoutModal()">✕</button>
+      
+      <h3 style="font-size: 22px; color: var(--navy-dark); margin-bottom: 4px;">Phiếu Đặt Phòng Trực Tiếp</h3>
+      <p style="font-size: 13px; color: var(--text-muted);" id="checkoutHotelName">Khách sạn HaiHotels</p>
+
+      <form id="checkoutForm" onsubmit="handleCheckoutSubmit(event)">
+        <div class="checkout-form-grid">
+          <div>
+            <label class="form-label">Họ và Tên Quý Khách *</label>
+            <input type="text" id="custName" class="form-input" placeholder="Nguyễn Văn A" required>
+          </div>
+          <div>
+            <label class="form-label">Số Điện Thoại (Zalo) *</label>
+            <input type="tel" id="custPhone" class="form-input" placeholder="0901 234 567" required>
+          </div>
+          <div>
+            <label class="form-label">Địa Chỉ Email *</label>
+            <input type="email" id="custEmail" class="form-input" placeholder="email@example.com" required>
+          </div>
+          <div>
+            <label class="form-label">Số Khách Lưu Trú</label>
+            <select id="custGuests" class="form-input">
+              <option value="2">2 Khách lớn (1 Phòng)</option>
+              <option value="1">1 Khách lớn (1 Phòng)</option>
+              <option value="4">Gia đình (4 Khách · 2 Phòng)</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Ngày Nhận Phòng *</label>
+            <input type="date" id="custCheckin" class="form-input" required onchange="calculateBookingTotal()">
+          </div>
+          <div>
+            <label class="form-label">Ngày Trả Phòng *</label>
+            <input type="date" id="custCheckout" class="form-input" required onchange="calculateBookingTotal()">
+          </div>
+          <div class="form-group-full">
+            <label class="form-label">Yêu Cầu Đặc Biệt (Tùy chọn)</label>
+            <input type="text" id="custNote" class="form-input" placeholder="Giường đôi lớn, tầng cao, chuẩn bị kỷ niệm ngày cưới...">
+          </div>
+        </div>
+
+        <!-- Bảng Tính Giá Chi Tiết -->
+        <div class="price-breakdown-card">
+          <div class="breakdown-row">
+            <span>Đơn giá phòng:</span>
+            <span id="calcNightlyRate">0 ₫ / đêm</span>
+          </div>
+          <div class="breakdown-row">
+            <span>Thời gian lưu trú:</span>
+            <span id="calcNightsCount">1 đêm</span>
+          </div>
+          <div class="breakdown-row">
+            <span>Thuế & Phí phục vụ (10%):</span>
+            <span id="calcTax">0 ₫</span>
+          </div>
+          <div class="breakdown-row" style="color: #16a34a;">
+            <span>Ưu đãi đặt trực tiếp (-10%):</span>
+            <span id="calcDiscount">-0 ₫</span>
+          </div>
+          <div class="breakdown-total">
+            <span>Tổng thanh toán:</span>
+            <span id="calcTotalAmount" style="color: #b91c1c;">0 ₫</span>
+          </div>
+        </div>
+
+        <!-- Phương Thức Thanh Toán -->
+        <label class="form-label">Chọn Phương Thức Thanh Toán:</label>
+        <div class="payment-options-grid">
+          <div class="payment-option-card selected" onclick="selectPaymentMethod('vietqr', this)">
+            <div style="font-size: 18px; margin-bottom: 2px;">📱</div>
+            <span>VietQR Chuyển Khoản</span>
+          </div>
+          <div class="payment-option-card" onclick="selectPaymentMethod('card', this)">
+            <div style="font-size: 18px; margin-bottom: 2px;">💳</div>
+            <span>Thẻ Visa / Master</span>
+          </div>
+          <div class="payment-option-card" onclick="selectPaymentMethod('counter', this)">
+            <div style="font-size: 18px; margin-bottom: 2px;">🏨</div>
+            <span>Thanh Toán Tại Quầy</span>
+          </div>
+        </div>
+
+        <!-- Khung VietQR Tự Sinh -->
+        <div class="vietqr-box active" id="vietqrArea">
+          <div style="font-size: 12px; font-weight: 700; color: var(--navy-dark); margin-bottom: 8px;">QUÉT MÃ VIETQR QUA ỨNG DỤNG NGÂN HÀNG (NAPAS 24/7):</div>
+          <div id="vietqrSvgWrap" style="display: flex; justify-content: center; margin-bottom: 6px;"></div>
+          <div style="font-size: 11.5px; color: var(--text-muted);">Số tài khoản: <b>1903 8888 6868</b> · Techcombank · Chủ TK: HAIHOTELS COLLECTION</div>
+        </div>
+
+        <button type="submit" class="btn-member" style="width: 100%; padding: 14px; font-size: 15px; border-radius: 8px;">
+          ✓ Hoàn Tất Đặt Phòng & Nhận Mã Xác Nhận
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL TRA CỨU ĐƠN PHÒNG (BOOKING LOOKUP SYSTEM) -->
+  <div class="modal-backdrop" id="lookupModal" onclick="closeLookupOnBackdrop(event)">
+    <div class="lookup-window">
+      <button class="modal-close-btn" style="top: 18px; right: 18px; background: #e2e8f0; color: #1e293b;" onclick="closeLookupModal()">✕</button>
+      
+      <h3 style="font-size: 22px; color: var(--navy-dark); margin-bottom: 4px;">🔍 Tra Cứu Đơn Đặt Phòng</h3>
+      <p style="font-size: 13px; color: var(--text-muted);">Nhập Mã đặt phòng (ví dụ HAI-82910) hoặc Số điện thoại để xem trạng thái đơn phòng:</p>
+
+      <div class="lookup-input-bar">
+        <input type="text" id="lookupSearchField" class="form-input" placeholder="Nhập mã đơn phòng hoặc SĐT..." onkeydown="if(event.key==='Enter') executeLookup()">
+        <button class="btn-search-gold" onclick="executeLookup()" style="padding: 10px 20px;">Tìm Kiếm</button>
+      </div>
+
+      <div class="lookup-results-container" id="lookupResultsList">
+        <!-- Hiển thị kết quả tra cứu -->
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL CẤU HÌNH MÔ HÌNH AI (SETTINGS DRAWER) -->
+  <div class="modal-backdrop" id="aiSettingsModal" onclick="closeAISettingsOnBackdrop(event)">
+    <div class="ai-settings-window">
+      <button class="modal-close-btn" style="top: 16px; right: 16px; background: #e2e8f0; color: #1e293b;" onclick="closeAISettingsModal()">✕</button>
+      
+      <h3 style="font-size: 20px; color: var(--navy-dark); margin-bottom: 4px;">⚙️ Cấu Hình Mô Hình AI Quản Gia</h3>
+      <p style="font-size: 12.5px; color: var(--text-muted);">Chọn mô hình ngôn ngữ mạnh nhất để Quản gia Mai Linh hỗ trợ Quý khách:</p>
+
+      <div class="model-selector-box">
+        <label class="model-choice-radio active" id="radioOptLocal" onclick="selectAIModel('local')">
+          <input type="radio" name="aiModelChoice" checked>
+          <div>
+            <div class="model-choice-title">1. HaiHotels Semantic Deep Brain (Mặc Định)</div>
+            <div class="model-choice-desc">Mô hình xử lý ngữ cảnh nội bộ chuyên sâu: am hiểu 12 khách sạn, so sánh giá, tư vấn lịch trình, không cần internet hay API Key.</div>
+          </div>
+        </label>
+
+        <label class="model-choice-radio" id="radioOptGemini" onclick="selectAIModel('gemini')">
+          <input type="radio" name="aiModelChoice">
+          <div>
+            <div class="model-choice-title">2. Google Gemini 1.5 Pro / Flash (Khuyên Dùng)</div>
+            <div class="model-choice-desc">Mô hình trí tuệ nhân tạo thế hệ mới của Google, hỗ trợ tiếng Việt xuất sắc, tốc độ phản hồi cực nhanh, trả lời mọi chủ đề không giới hạn.</div>
+          </div>
+        </label>
+
+        <label class="model-choice-radio" id="radioOptGPT" onclick="selectAIModel('openai')">
+          <input type="radio" name="aiModelChoice">
+          <div>
+            <div class="model-choice-title">3. OpenAI GPT-4o</div>
+            <div class="model-choice-desc">Mô hình hàng đầu của OpenAI cho năng lực tư duy logic và phong cách đối thoại tự nhiên bậc nhất thế giới.</div>
+          </div>
+        </label>
+      </div>
+
+      <div id="apiKeyInputBox" style="display: none; margin-bottom: 16px;">
+        <label class="form-label" id="apiKeyLabel">Nhập Google Gemini API Key:</label>
+        <input type="password" id="userApiKeyField" class="form-input" placeholder="Dán API Key của bạn vào đây...">
+        <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Khóa API được lưu cục bộ an toàn trên trình duyệt của bạn (Local Storage).</div>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 8px;">
+        <button class="btn-lookup-order" onclick="closeAISettingsModal()">Đóng</button>
+        <button class="btn-member" onclick="saveAISettings()">Lưu Cấu Hình</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL GỬI ĐÁNH GIÁ (WRITE REVIEW) -->
+  <div class="modal-backdrop" id="reviewModal" onclick="closeReviewOnBackdrop(event)">
+    <div class="share-window" style="max-width: 520px;">
+      <button class="modal-close-btn" style="top: 16px; right: 16px; background: #e2e8f0; color: #1e293b;" onclick="closeReviewModal()">✕</button>
+      
+      <h3 style="font-size: 20px; color: var(--navy-dark); margin-bottom: 6px;">✍️ Chia Sẻ Cảm Nhận Của Bạn</h3>
+      <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">Đánh giá của Quý khách giúp HaiHotels không ngừng hoàn thiện chất lượng phục vụ:</p>
+
+      <form onsubmit="handleReviewSubmit(event)">
+        <div class="form-group-review">
+          <label>Tên Quý Khách</label>
+          <input type="text" id="revName" class="form-control-rev" placeholder="Ví dụ: Hoàng Long" required>
+        </div>
+        <div class="form-group-review">
+          <label>Khách Sạn Đã Nghỉ Dưỡng</label>
+          <select id="revHotel" class="form-control-rev">
+            <option>HaiHotels Premier Da Nang Oceanfront</option>
+            <option>HaiHotels Sunset Pearl Island Phu Quoc</option>
+            <option>HaiHotels Mountain Cloud Retreat Sa Pa</option>
+            <option>HaiHotels Pine Forest Heritage Da Lat</option>
+            <option>HaiHotels Sky Executive Suite Sai Gon</option>
+          </select>
+        </div>
+        <div class="form-group-review">
+          <label>Đánh Giá (Số Sao)</label>
+          <select id="revStars" class="form-control-rev">
+            <option value="5">★★★★★ - Tuyệt hảo (5/5)</option>
+            <option value="4">★★★★☆ - Rất tốt (4/5)</option>
+            <option value="3">★★★☆☆ - Hài lòng (3/5)</option>
+          </select>
+        </div>
+        <div class="form-group-review">
+          <label>Lời Nhận Xét Của Bạn</label>
+          <textarea id="revContent" class="form-control-rev" rows="3" placeholder="Chia sẻ trải nghiệm của bạn về phòng nghỉ, đồ ăn, hoặc nhân viên..." required></textarea>
+        </div>
+
+        <button type="submit" class="btn-member" style="width: 100%; padding: 12px; border-radius: 8px;">Đăng Nhận Xét</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL CHIA SẺ LIÊN KẾT ĐẶT HÀNG -->
+  <div class="modal-backdrop" id="shareModal" onclick="closeShareModalOnBackdrop(event)">
+    <div class="share-window">
+      <button class="modal-close-btn" style="top: 18px; right: 18px; background: #e2e8f0; color: #1e293b;" onclick="closeShareModal()">✕</button>
+      
+      <h3 style="font-size: 22px; color: var(--navy-dark); margin-bottom: 6px;">🔗 Chia Sẻ Liên Kết Đặt Phòng</h3>
+      <p style="font-size: 13.5px; color: var(--text-muted);">Gửi đường dẫn trực tiếp này cho bạn bè hoặc người thân để mở đúng phòng và nhận ưu đãi đặt phòng tức thì:</p>
+
+      <div class="share-link-row">
+        <input type="text" id="shareLinkField" class="share-link-field" readonly>
+        <button class="btn-copy" onclick="copyShareUrl()">📋 Sao Chép</button>
+      </div>
+
+      <div style="font-size: 12.5px; font-weight: 700; color: var(--navy-dark); margin-top: 14px;">Gửi nhanh qua ứng dụng:</div>
+      <div class="social-row">
+        <button class="btn-social" onclick="shareToNetwork('zalo')">💬 Zalo Chat</button>
+        <button class="btn-social" onclick="shareToNetwork('facebook')">📘 Facebook</button>
+        <button class="btn-social" onclick="shareToNetwork('telegram')">✈️ Telegram</button>
+      </div>
+
+      <div style="margin-top: 20px; padding: 14px; background: #fdfbf7; border: 1px dashed var(--gold-primary); border-radius: 10px; text-align: center;">
+        <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">📱 Mã QR quét nhanh bằng camera điện thoại:</div>
+        <div id="qrPlaceholder" style="display: flex; justify-content: center;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       JAVASCRIPT: HỆ THỐNG THẬT 100% CÙNG ĐỘNG CƠ AI CHUYÊN SÂU
+       ========================================================================== -->
+  <script>
+    /* -------------------------------------------------------------------------
+       1. DATA 12 KHÁCH SẠN VỚI GALLERY ĐA ẢNH CHI TIẾT
+       ------------------------------------------------------------------------- */
+    const haiHotelsData = [
+      {
+        id: 1,
+        name: "HaiHotels Premier Da Nang Oceanfront",
+        category: "sea",
+        city: "Đà Nẵng",
+        rating: 4.95,
+        reviewsCount: 320,
+        badge: "Tuyệt Tác Bên Biển",
+        priceOld: "2.500.000 ₫",
+        price: 1850000,
+        priceDisplay: "1.850.000 ₫",
+        image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=900&q=85",
+        gallery: [
+          "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=900&q=85",
+          "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=900&q=85",
+          "https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=900&q=85",
+          "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=900&q=85"
+        ],
+        location: "Đường Võ Nguyên Giáp, Biển Mỹ Khê, Đà Nẵng",
+        amenities: ["Ban công Panorama trọn biển", "Hồ bơi vô cực Tầng 28", "Buffet sáng Á - Âu thượng hạng", "Dịch vụ đưa đón sân bay"],
+        desc: "Khách sạn 5 sao mặt tiền biển Mỹ Khê, nơi đón bình minh rạng rỡ trên biển Đông cùng dịch vụ quản gia cao cấp và hồ bơi vô cực ngắm trọn vịnh Đà Nẵng."
+      },
+      {
+        id: 2,
+        name: "HaiHotels Sunset Pearl Island Phu Quoc",
+        category: "sea",
+        city: "Phú Quốc",
+        rating: 4.98,
+        reviewsCount: 410,
+        badge: "Khu Nghỉ Dưỡng Biểu Tượng",
+        priceOld: "3.800.000 ₫",
+        price: 2890000,
+        priceDisplay: "2.890.000 ₫",
+        image: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=900&q=85",
+        gallery: [
+          "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=900&q=85",
+          "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=900&q=85",
+          "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=900&q=85",
+          "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=900&q=85"
+        ],
+        location: "Bãi Trường, Dương Tơ, Phú Quốc",
+        amenities: ["Bãi tắm riêng cát trắng", "Villa hồ bơi riêng tư", "Trà chiều hoàng hôn", "Xe đưa đón riêng miễn phí"],
+        desc: "Khu nghỉ dưỡng biệt lập bên bờ biển đẹp nhất Đảo Ngọc, chiêm ngưỡng hoàng hôn ngũ sắc lộng lẫy và đắm mình trong làn nước biển trong vắt như pha lê."
+      },
+      {
+        id: 3,
+        name: "HaiHotels Mountain Cloud Retreat Sa Pa",
+        category: "mountain",
+        city: "Sa Pa",
+        rating: 4.92,
+        reviewsCount: 230,
+        badge: "Săn Mây Fansipan",
+        priceOld: "1.650.000 ₫",
+        price: 1250000,
+        priceDisplay: "1.250.000 ₫",
+        image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=900&q=85",
+        gallery: [
+          "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=900&q=85",
+          "https://images.unsplash.com/photo-1591088398332-8a7791972843?auto=format&fit=crop&w=900&q=85",
+          "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=900&q=85",
+          "https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=900&q=85"
+        ],
+        location: "Thung lũng Mường Hoa, Sa Pa, Lào Cai",
+        amenities: ["Tầm nhìn biển mây bồng bềnh", "Lò sưởi ấm cúng trong phòng", "Tắm lá thuốc người Dao đỏ", "Trà thảo mộc sơn tra"],
+        desc: "Ẩn mình giữa lưng chừng mây và những thửa ruộng bậc thang kỳ vĩ, tận hưởng khí hậu 4 mùa se lạnh và đỉnh Fansipan huyền thoại."
+      },
+      {
+        id: 4,
+        name: "HaiHotels Pine Forest Heritage Da Lat",
+        category: "mountain",
+        city: "Đà Lạt",
+        rating: 4.91,
+        reviewsCount: 280,
+        badge: "Rừng Thông Lãng Mạn",
+        priceOld: "1.400.000 ₫",
+        price: 990000,
+        priceDisplay: "990.000 ₫",
+        image: "https://images.unsplash.com/photo-1591088398332-8a7791972843?auto=format&fit=crop&w=900&q=85",
+        gallery: [
+          "https://images.unsplash.com/photo-1591088398332-8a7791972843?auto=format&fit=crop&w=900&q=85",
+          "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=900&q=85",
+          "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=900&q=85",
+          "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=900&q=85"
+        ],
+        location: "Khu du lịch Hồ Tuyền Lâm, Đà Lạt, Lâm Đồng",
+        amenities: ["Ban công view rừng thông", "Tiệc nướng BBQ ngoài trời", "Bếp sưởi gỗ ấm áp", "Xe đạp dạo hồ miễn phí"],
+        desc: "Biệt thự phong cách Pháp cổ nép mình dưới rặng thông ngút ngàn bên hồ Tuyền Lâm, sáng đón sương mai bảng lảng, chiều thưởng thức trà nóng bên bếp lửa."
+      },
+      {
+        id: 5,
+        name: "HaiHotels Ocean Horizon Nha Trang",
+        category: "sea",
+        city: "Nha Trang",
+        rating: 4.88,
+        reviewsCount: 215,
+        badge: "Trực Diện Vịnh Biển",
+        priceOld: "1.900.000 ₫",
+        price: 1390000,
+        priceDisplay: "1.390.000 ₫",
+        image: "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=900&q=85",
+        gallery: [
+          "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=900&q=85",
+          "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=900&q=85",
+          "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=900&q=85",
+          "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=900&q=85"
+        ],
+        location: "Đại lộ Trần Phú, Vịnh Nha Trang, Khánh Hòa",
+        amenities: ["View vịnh Nha Trang", "Spa thảo mộc đá nóng", "Bồn tắm kính hướng biển", "Sky Bar ngắm toàn cảnh"],
+        desc: "Tọa lạc tại vị trí đắc địa nhất đại lộ Trần Phú, chỉ vài bước chân chạm đến làn nước xanh ngọc bích và bãi cát vàng óng của một trong những vịnh đẹp nhất thế giới."
+      },
+      {
+        id: 6,
+        name: "HaiHotels Sky Executive Suite Sai Gon",
+        category: "city",
+        city: "Sài Gòn",
+        rating: 4.96,
+        reviewsCount: 390,
+        badge: "Đỉnh Cao Đô Thị",
+        priceOld: "4.200.000 ₫",
+        price: 3300000,
+        priceDisplay: "3.300.000 ₫",
+        image: "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=900&q=85",
+        gallery: [
+          "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=900&q=85",
+          "https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=900&q=85",
+          "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=900&q=85",
+          "https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=900&q=85"
+        ],
+        location: "Quận 1, Trung tâm TP. Hồ Chí Minh",
+        amenities: ["Tầng 48 ngắm toàn thành phố", "Hồ bơi chân mây tầng thượng", "Rượu vang Pháp đón khách", "Quản gia riêng chuẩn VIP"],
+        desc: "Đẳng cấp nghỉ dưỡng trên tầng cao nhất Sài Gòn phồn hoa, ngắm trọn dòng sông thơ mộng và nhịp sống đô thị rực rỡ ánh đèn về đêm."
+      },
+      {
+        id: 7,
+        name: "HaiHotels Old Quarter Boutique Hanoi",
+        category: "city",
+        city: "Hà Nội",
+        rating: 4.90,
+        reviewsCount: 260,
+        badge: "Dấu Ấn Tràng An",
+        priceOld: "1.350.000 ₫",
+        price: 950000,
+        priceDisplay: "950.000 ₫",
+        image: "https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=900&q=85",
+        gallery: [
+          "https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=900&q=85",
+          "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=900&q=85",
+          "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=900&q=85",
+          "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=900&q=85"
+        ],
+        location: "Phố Hàng Bè, Hoàn Kiếm, Hà Nội",
+        amenities: ["Cách Hồ Gươm 200m", "Cà phê trứng đặc biệt", "Nội thất Indochine hoài niệm", "Gợi ý tour phố cổ miễn phí"],
+        desc: "Nét duyên Đông Dương tinh tế giữa 36 phố phường Hà Nội ngàn năm văn hiến, chỉ vài phút dạo bộ đến Tháp Rùa và thưởng thức ẩm thực đường phố trứ danh."
+      },
+      {
+        id: 8,
+        name: "HaiHotels Emerald Bayview Ha Long",
+        category: "sea",
+        city: "Hạ Long",
+        rating: 4.94,
+        reviewsCount: 290,
+        badge: "Kỳ Quan Thiên Nhiên",
+        priceOld: "2.800.000 ₫",
+        price: 2100000,
+        priceDisplay: "2.100.000 ₫",
+        image: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=900&q=85",
+        gallery: [
+          "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=900&q=85",
+          "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=900&q=85",
+          "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=900&q=85",
+          "https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=900&q=85"
+        ],
+        location: "Bãi Cháy, Vịnh Hạ Long, Quảng Ninh",
+        amenities: ["Tầm nhìn di sản Vịnh", "Du thuyền riêng tham quan đảo", "Hồ bơi nước ấm 4 mùa", "Hải sản tươi sống cao cấp"],
+        desc: "Mở rộng tầm mắt chiêm ngưỡng hàng ngàn hòn đảo đá vôi kỳ vĩ soi bóng mặt nước ngọc bích ngay từ phòng ngủ của bạn."
+      },
+      {
+        id: 9,
+        name: "HaiHotels Sunset Cliff Villa Vung Tau",
+        category: "sea",
+        city: "Vũng Tàu",
+        rating: 4.89,
+        reviewsCount: 180,
+        badge: "Vách Đá Hướng Biển",
+        priceOld: "2.100.000 ₫",
+        price: 1550000,
+        priceDisplay: "1.550.000 ₫",
+        image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=900&q=85",
+        gallery: [
+          "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=900&q=85",
+          "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=900&q=85",
+          "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=900&q=85",
+          "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=900&q=85"
+        ],
+        location: "Đường Trần Phú, Bãi Trước, Vũng Tàu",
+        amenities: ["Ngắm hoàng hôn Bãi Trước", "Hồ bơi tràn vách đá", "Sân vườn nướng BBQ", "Không gian yên tĩnh biệt lập"],
+        desc: "Villa tựa lưng vào núi hướng mặt ra biển xanh, nơi lý tưởng để trốn khỏi nhịp sống ồn ã và đón những tia nắng hoàng hôn lãng mạn."
+      },
+      {
+        id: 10,
+        name: "HaiHotels Imperial Riverside Hue",
+        category: "budget",
+        city: "Huế",
+        rating: 4.91,
+        reviewsCount: 165,
+        badge: "Cố Đô Trầm Mặc",
+        priceOld: "1.250.000 ₫",
+        price: 890000,
+        priceDisplay: "890.000 ₫",
+        image: "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=900&q=85",
+        gallery: [
+          "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=900&q=85",
+          "https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=900&q=85",
+          "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=900&q=85",
+          "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=900&q=85"
+        ],
+        location: "Đường Lê Lợi, Bờ Nam Sông Hương, Huế",
+        amenities: ["View dòng sông Hương thơ mộng", "Thưởng thức bánh cung đình", "Thuyền ca Huế đón tại bến", "Trà sen ngự uyển"],
+        desc: "Không gian trầm lắng, quý phái soi bóng bên dòng Hương Giang hiền hòa, cảm nhận chiều sâu lịch sử và phong vị cố đô sâu lắng."
+      },
+      {
+        id: 11,
+        name: "HaiHotels Tropical Palm Mui Ne",
+        category: "budget",
+        city: "Mũi Né",
+        rating: 4.87,
+        reviewsCount: 140,
+        badge: "Rặng Dừa Nhiệt Đới",
+        priceOld: "1.150.000 ₫",
+        price: 820000,
+        priceDisplay: "820.000 ₫",
+        image: "https://images.unsplash.com/photo-1591088398332-8a7791972843?auto=format&fit=crop&w=900&q=85",
+        gallery: [
+          "https://images.unsplash.com/photo-1591088398332-8a7791972843?auto=format&fit=crop&w=900&q=85",
+          "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=900&q=85",
+          "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=900&q=85",
+          "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=900&q=85"
+        ],
+        location: "Nguyễn Đình Chiểu, Hàm Tiến, Mũi Né",
+        amenities: ["Khu vườn dừa rợp bóng mát", "Hồ bơi sát bãi biển", "Chèo SUP & lướt ván", "Nước dừa tươi miễn phí"],
+        desc: "Bungalow nhiệt đới mộc mạc bên rặng dừa xanh, chỉ một bước chân ra bãi cát vàng óng và tiếng sóng vỗ dịu êm của vùng biển Mũi Né."
+      },
+      {
+        id: 12,
+        name: "HaiHotels Presidential Sanctuary Phu Quoc",
+        category: "luxury",
+        city: "Phú Quốc",
+        rating: 4.99,
+        reviewsCount: 88,
+        badge: "Villa Tổng Thống Độc Bản",
+        priceOld: "6.000.000 ₫",
+        price: 4950000,
+        priceDisplay: "4.950.000 ₫",
+        image: "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=900&q=85",
+        gallery: [
+          "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=900&q=85",
+          "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=900&q=85",
+          "https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=900&q=85",
+          "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=900&q=85"
+        ],
+        location: "Bãi Khem, An Thới, Phú Quốc",
+        amenities: ["Villa 4 phòng ngủ hướng biển", "Hồ bơi riêng dài 25m", "Bếp trưởng phục vụ tại villa", "Xe Maybach đưa đón 24/7"],
+        desc: "Khu dinh thự nghỉ dưỡng đỉnh cao với bờ biển riêng tư, tiêu chuẩn phục vụ hoàng gia dành riêng cho những kỳ nghỉ quan trọng nhất."
+      }
+    ];
+
+    function handleImgFallback(img) {
+      img.onerror = null;
+      img.src = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='500' viewBox='0 0 800 500'><rect fill='%230a1128' width='800' height='500'/><text fill='%23dfcaa7' font-family='serif' font-size='28' font-weight='bold' x='50%25' y='50%25' text-anchor='middle'>HaiHotels & Resorts Collection</text></svg>";
+    }
+
+    function handleAvatarFallback(img) {
+      img.onerror = null;
+      img.src = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23111d3d'/><text x='50' y='58' font-family='sans-serif' font-size='32' fill='%23dfcaa7' text-anchor='middle'>ML</text></svg>";
+    }
+
+    /* -------------------------------------------------------------------------
+       2. KẾT XUẤT THẺ KHÁCH SẠN & TOOLBAR NÂNG CAO
+       ------------------------------------------------------------------------- */
+    let currentCategoryFilter = 'all';
+    let currentMaxPrice = 5000000;
+    let currentSortMode = 'recommended';
+
+    function displayHotels(hotels) {
+      const container = document.getElementById("hotelsGrid");
+      if (!container) return;
+
+      if (hotels.length === 0) {
+        container.innerHTML = `
+          <div style="grid-column: 1/-1; text-align: center; padding: 60px 20px; background: white; border-radius: 14px; border: 1px dashed var(--border-subtle);">
+            <div style="font-size: 36px; margin-bottom: 10px;">🔍</div>
+            <h3 style="color: var(--navy-dark); margin-bottom: 6px;">Không tìm thấy điểm đến phù hợp</h3>
+            <p style="color: var(--text-muted); font-size: 14px;">Quý khách vui lòng thử chọn khoảng giá cao hơn hoặc đổi điểm đến khác nhé!</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = hotels.map(hotel => `
+        <div class="hotel-card" id="hotel-card-${hotel.id}">
+          <div class="card-media">
+            <img class="card-img" src="${hotel.image}" alt="${hotel.name}" loading="lazy" onerror="handleImgFallback(this)">
+            <span class="card-badge">${hotel.badge}</span>
+            <div class="card-actions-top">
+              <button class="btn-circle" onclick="openShareModal(${hotel.id})" title="Chia sẻ liên kết khách sạn này">🔗</button>
+              <button class="btn-circle" onclick="toggleSaveHotel(this, '${hotel.name}')" title="Lưu danh sách yêu thích">❤️</button>
+            </div>
+          </div>
+
+          <div class="card-content">
+            <div class="card-meta-row">
+              <span class="card-location">📍 ${hotel.location}</span>
+              <span class="card-rating-badge">★ ${hotel.rating}</span>
+            </div>
+
+            <h3 class="card-title">${hotel.name}</h3>
+
+            <div class="card-features">
+              ${hotel.amenities.map(a => `<span class="feature-tag">✓ ${a}</span>`).join('')}
+            </div>
+
+            <div class="card-footer">
+              <div class="price-group">
+                <span class="price-orig">${hotel.priceOld}</span>
+                <div class="price-main">${hotel.priceDisplay} <span>/đêm</span></div>
+              </div>
+
+              <div class="card-buttons">
+                <button class="btn-share-mini" onclick="openShareModal(${hotel.id})">
+                  🔗 Chia Sẻ
+                </button>
+                <button class="btn-reserve-mini" onclick="openRoomModal(${hotel.id})">
+                  Chi Tiết
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function applyFiltersAndSort() {
+      let filtered = [...haiHotelsData];
+
+      // 1. Theo thể loại
+      if (currentCategoryFilter !== 'all') {
+        filtered = filtered.filter(h => h.category === currentCategoryFilter);
+      }
+
+      // 2. Theo thanh trượt giá
+      filtered = filtered.filter(h => h.price <= currentMaxPrice);
+
+      // 3. Sắp xếp
+      if (currentSortMode === 'price-asc') {
+        filtered.sort((a, b) => a.price - b.price);
+      } else if (currentSortMode === 'price-desc') {
+        filtered.sort((a, b) => b.price - a.price);
+      } else if (currentSortMode === 'rating-desc') {
+        filtered.sort((a, b) => b.rating - a.rating);
+      }
+
+      displayHotels(filtered);
+    }
+
+    function applyCategoryFilter(cat, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentCategoryFilter = cat;
+      applyFiltersAndSort();
+    }
+
+    function updatePriceSlider(val) {
+      currentMaxPrice = parseInt(val);
+      document.getElementById("priceSliderLabel").textContent = `Dưới ${currentMaxPrice.toLocaleString('vi-VN')} ₫`;
+      applyFiltersAndSort();
+    }
+
+    function applySorting(mode) {
+      currentSortMode = mode;
+      applyFiltersAndSort();
+    }
+
+    function triggerSearch() {
+      const kw = document.getElementById("destinationInput").value.toLowerCase().trim();
+      const matched = haiHotelsData.filter(h => 
+        h.name.toLowerCase().includes(kw) ||
+        h.city.toLowerCase().includes(kw) ||
+        h.location.toLowerCase().includes(kw) ||
+        h.desc.toLowerCase().includes(kw)
+      );
+
+      displayHotels(matched.length > 0 ? matched : haiHotelsData);
+      scrollToSection('collectionSection');
+      showToast(`✨ Đã lọc ${matched.length} khách sạn tại: "${kw}"`);
+    }
+
+    function searchCity(cityName) {
+      document.getElementById("destinationInput").value = cityName;
+      triggerSearch();
+    }
+
+    function toggleSaveHotel(btn, name) {
+      if (btn.style.color === "rgb(239, 68, 68)") {
+        btn.style.color = "";
+        showToast(`Đã bỏ lưu "${name}"`);
+      } else {
+        btn.style.color = "#ef4444";
+        showToast(`❤️ Đã lưu "${name}" vào danh sách yêu thích!`);
+      }
+    }
+
+    function scrollToSection(id) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    /* -------------------------------------------------------------------------
+       3. CHI TIẾT PHÒNG VỚI MULTI-PHOTO GALLERY SWITCHER
+       ------------------------------------------------------------------------- */
+    let currentDetailHotel = null;
+
+    function openRoomModal(hotelId) {
+      const hotel = haiHotelsData.find(h => h.id === hotelId);
+      if (!hotel) return;
+
+      currentDetailHotel = hotel;
+      document.getElementById("detailModalImg").src = hotel.image;
+      document.getElementById("detailModalTitle").textContent = hotel.name;
+      document.getElementById("detailModalDesc").textContent = hotel.desc;
+      document.getElementById("detailModalPrice").textContent = hotel.priceDisplay;
+
+      // Gallery Thumbnails
+      const thumbsBox = document.getElementById("modalThumbsRow");
+      thumbsBox.innerHTML = (hotel.gallery || [hotel.image]).map((imgUrl, idx) => `
+        <button class="thumb-btn ${idx === 0 ? 'active' : ''}" onclick="switchModalGallery('${imgUrl}', this)">
+          <img src="${imgUrl}" alt="Gallery ${idx + 1}" onerror="handleImgFallback(this)">
+        </button>
+      `).join('');
+
+      const amenitiesBox = document.getElementById("detailModalAmenities");
+      amenitiesBox.innerHTML = hotel.amenities.map(a => `
+        <div class="amenity-point"><span>✦</span> ${a}</div>
+      `).join('');
+
+      document.getElementById("roomDetailModal").classList.add("active");
+    }
+
+    function switchModalGallery(imgUrl, btn) {
+      document.getElementById("detailModalImg").src = imgUrl;
+      document.querySelectorAll(".thumb-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+    }
+
+    function closeRoomModal() {
+      document.getElementById("roomDetailModal").classList.remove("active");
+    }
+
+    function closeRoomModalOnBackdrop(e) {
+      if (e.target.id === "roomDetailModal") {
+        closeRoomModal();
+      }
+    }
+
+    function openShareModalForCurrentDetail() {
+      if (currentDetailHotel) {
+        openShareModal(currentDetailHotel.id);
+      }
+    }
+
+    /* -------------------------------------------------------------------------
+       4. QUY TRÌNH CHECKOUT ĐẶT PHÒNG THẬT (REAL CHECKOUT FLOW & VIETQR)
+       ------------------------------------------------------------------------- */
+    let selectedPaymentType = 'vietqr';
+
+    function startCheckoutFlow() {
+      if (!currentDetailHotel) return;
+      closeRoomModal();
+
+      document.getElementById("checkoutHotelName").textContent = `Khách sạn: ${currentDetailHotel.name}`;
+      document.getElementById("calcNightlyRate").textContent = `${currentDetailHotel.priceDisplay} / đêm`;
+
+      // Set default dates
+      const today = new Date();
+      const tomorrow = new Date();
+      tomorrow.setDate(today.getDate() + 2);
+
+      const toStr = d => d.toISOString().split('T')[0];
+      document.getElementById("custCheckin").value = toStr(today);
+      document.getElementById("custCheckout").value = toStr(tomorrow);
+
+      calculateBookingTotal();
+      document.getElementById("checkoutModal").classList.add("active");
+    }
+
+    function closeCheckoutModal() {
+      document.getElementById("checkoutModal").classList.remove("active");
+    }
+
+    function closeCheckoutOnBackdrop(e) {
+      if (e.target.id === "checkoutModal") {
+        closeCheckoutModal();
+      }
+    }
+
+    function calculateBookingTotal() {
+      if (!currentDetailHotel) return;
+
+      const inVal = document.getElementById("custCheckin").value;
+      const outVal = document.getElementById("custCheckout").value;
+      if (!inVal || !outVal) return;
+
+      const d1 = new Date(inVal);
+      const d2 = new Date(outVal);
+      let diffDays = Math.ceil((d2 - d1) / (1000 * 60 * 60 * 24));
+      if (diffDays < 1) diffDays = 1;
+
+      document.getElementById("calcNightsCount").textContent = `${diffDays} đêm`;
+
+      const subtotal = currentDetailHotel.price * diffDays;
+      const tax = Math.round(subtotal * 0.1);
+      const discount = Math.round(subtotal * 0.1);
+      const grandTotal = subtotal + tax - discount;
+
+      document.getElementById("calcTax").textContent = `+${tax.toLocaleString('vi-VN')} ₫`;
+      document.getElementById("calcDiscount").textContent = `-${discount.toLocaleString('vi-VN')} ₫`;
+      document.getElementById("calcTotalAmount").textContent = `${grandTotal.toLocaleString('vi-VN')} ₫`;
+
+      renderVietQR(grandTotal);
+    }
+
+    function selectPaymentMethod(type, el) {
+      selectedPaymentType = type;
+      document.querySelectorAll(".payment-option-card").forEach(c => c.classList.remove("selected"));
+      el.classList.add("selected");
+
+      const qrArea = document.getElementById("vietqrArea");
+      if (type === 'vietqr') {
+        qrArea.classList.add("active");
+      } else {
+        qrArea.classList.remove("active");
+      }
+    }
+
+    function renderVietQR(amount) {
+      const qrWrap = document.getElementById("vietqrSvgWrap");
+      qrWrap.innerHTML = `
+        <svg width="120" height="120" viewBox="0 0 120 120" style="background: white; padding: 6px; border: 1px solid #cbd5e1; border-radius: 8px;">
+          <rect x="10" y="10" width="28" height="28" fill="#0a1128" />
+          <rect x="15" y="15" width="18" height="18" fill="#fff" />
+          <rect x="18" y="18" width="12" height="12" fill="#0a1128" />
+          
+          <rect x="82" y="10" width="28" height="28" fill="#0a1128" />
+          <rect x="87" y="15" width="18" height="18" fill="#fff" />
+          <rect x="90" y="18" width="12" height="12" fill="#0a1128" />
+          
+          <rect x="10" y="82" width="28" height="28" fill="#0a1128" />
+          <rect x="15" y="87" width="18" height="18" fill="#fff" />
+          <rect x="18" y="90" width="12" height="12" fill="#0a1128" />
+
+          <rect x="48" y="15" width="8" height="8" fill="#0a1128" />
+          <rect x="60" y="24" width="10" height="8" fill="#0a1128" />
+          <rect x="46" y="46" width="28" height="28" fill="#c5a880" rx="4" />
+          <text x="60" y="66" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">QR</text>
+
+          <rect x="80" y="55" width="10" height="10" fill="#0a1128" />
+          <rect x="95" y="70" width="15" height="8" fill="#0a1128" />
+          <rect x="50" y="90" width="12" height="12" fill="#0a1128" />
+        </svg>
+      `;
+    }
+
+    function handleCheckoutSubmit(e) {
+      e.preventDefault();
+      const code = "HAI-" + Math.floor(10000 + Math.random() * 90000);
+      const name = document.getElementById("custName").value.trim();
+      const phone = document.getElementById("custPhone").value.trim();
+      const email = document.getElementById("custEmail").value.trim();
+      const checkin = document.getElementById("custCheckin").value;
+      const checkout = document.getElementById("custCheckout").value;
+      const guests = document.getElementById("custGuests").value;
+      const totalStr = document.getElementById("calcTotalAmount").textContent;
+
+      const orderRecord = {
+        code,
+        hotelName: currentDetailHotel.name,
+        hotelImg: currentDetailHotel.image,
+        name,
+        phone,
+        email,
+        checkin,
+        checkout,
+        guests,
+        total: totalStr,
+        paymentType: selectedPaymentType,
+        createdAt: new Date().toLocaleString('vi-VN')
+      };
+
+      // Lưu vào LocalStorage
+      const existingOrders = JSON.parse(localStorage.getItem("haihotels_orders") || "[]");
+      existingOrders.unshift(orderRecord);
+      localStorage.setItem("haihotels_orders", JSON.stringify(existingOrders));
+
+      closeCheckoutModal();
+      triggerConfettiParticles();
+      showToast(`🎉 Đặt phòng thành công! Mã đơn: ${code}`);
+
+      // Gửi vào khung chat quản gia
+      if (!isConciergeOpen) {
+        toggleConcierge();
+      }
+      setTimeout(() => {
+        postBookingConfirmation(currentDetailHotel, orderRecord);
+      }, 400);
+    }
+
+    /* -------------------------------------------------------------------------
+       5. TRA CỨU ĐƠN PHÒNG (BOOKING LOOKUP)
+       ------------------------------------------------------------------------- */
+    function openLookupModal() {
+      document.getElementById("lookupModal").classList.add("active");
+      renderLookupOrders();
+    }
+
+    function closeLookupModal() {
+      document.getElementById("lookupModal").classList.remove("active");
+    }
+
+    function closeLookupOnBackdrop(e) {
+      if (e.target.id === "lookupModal") {
+        closeLookupModal();
+      }
+    }
+
+    function executeLookup() {
+      const kw = document.getElementById("lookupSearchField").value.trim().toLowerCase();
+      renderLookupOrders(kw);
+    }
+
+    function renderLookupOrders(filterKeyword = "") {
+      const container = document.getElementById("lookupResultsList");
+      const orders = JSON.parse(localStorage.getItem("haihotels_orders") || "[]");
+
+      let filtered = orders;
+      if (filterKeyword) {
+        filtered = orders.filter(o => 
+          o.code.toLowerCase().includes(filterKeyword) ||
+          o.phone.toLowerCase().includes(filterKeyword) ||
+          o.name.toLowerCase().includes(filterKeyword)
+        );
+      }
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div style="text-align: center; padding: 30px; color: var(--text-muted); background: #faf8f5; border-radius: 8px;">
+            <div style="font-size: 30px; margin-bottom: 6px;">📂</div>
+            <b>Không tìm thấy đơn đặt phòng nào</b>
+            <p style="font-size: 12px; margin-top: 4px;">Quý khách vui lòng kiểm tra lại Mã đặt phòng hoặc Số điện thoại đã đăng ký.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = filtered.map(o => `
+        <div class="order-item-card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span style="font-weight: 800; color: var(--navy-dark); font-size: 15px;">Mã Đơn: ${o.code}</span>
+            <span style="background: #dcfce7; color: #166534; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 12px;">ĐÃ XÁC NHẬN</span>
+          </div>
+          <div style="font-size: 13.5px; font-weight: 700; color: var(--gold-dark);">${o.hotelName}</div>
+          <div style="font-size: 12.5px; color: var(--text-dark); margin: 6px 0;">
+            👤 Khách hàng: <b>${o.name}</b> (${o.phone})<br>
+            📅 Thời gian: ${o.checkin} ➔ ${o.checkout} (${o.guests} khách)<br>
+            💰 Tổng thanh toán: <b>${o.total}</b>
+          </div>
+          <div style="display: flex; gap: 8px; margin-top: 10px;">
+            <button class="btn-lookup-order" style="font-size: 11.5px; padding: 5px 12px;" onclick="cancelOrder('${o.code}')">Hủy Đơn Này</button>
+            <button class="btn-member" style="font-size: 11.5px; padding: 5px 12px;" onclick="showToast('📋 Đã xuất phiếu lưu trú thành công!')">In Phiếu</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function cancelOrder(code) {
+      if (confirm(`Quý khách có chắc chắn muốn hủy đơn đặt phòng ${code} không?`)) {
+        let orders = JSON.parse(localStorage.getItem("haihotels_orders") || "[]");
+        orders = orders.filter(o => o.code !== code);
+        localStorage.setItem("haihotels_orders", JSON.stringify(orders));
+        renderLookupOrders();
+        showToast(`Đã hủy đơn ${code}`);
+      }
+    }
+
+    /* -------------------------------------------------------------------------
+       6. ĐÁNH GIÁ THỰC TẾ & VIẾT ĐÁNH GIÁ (REVIEWS SYSTEM)
+       ------------------------------------------------------------------------- */
+    const defaultReviews = [
+      {
+        name: "Đặng Ngọc Ánh",
+        hotel: "Đà Nẵng",
+        stars: 5,
+        text: "Kỳ nghỉ kỷ niệm 5 năm ngày cưới tại HaiHotels Đà Nẵng vượt ngoài mong đợi của vợ chồng mình. Ban công nhìn thẳng ra biển Mỹ Khê tuyệt đẹp, bạn quản gia Mai Linh hỗ trợ chu đáo từng chi tiết từ set hoa tươi đến bữa tối lãng mạn.",
+        avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80"
+      },
+      {
+        name: "Trần Minh Hoàng",
+        hotel: "Phú Quốc",
+        stars: 5,
+        text: "Biệt thự hướng biển Phú Quốc của HaiHotels thực sự là một kiệt tác. Hồ bơi riêng tư, hoàng hôn rực rỡ và đặc biệt tính năng gửi link chia sẻ giúp gia đình tôi cùng thống nhất chọn phòng cực kỳ nhanh chóng.",
+        avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80"
+      },
+      {
+        name: "Lê Phương Thảo",
+        hotel: "Sa Pa",
+        stars: 5,
+        text: "Ấn tượng nhất là trợ lý trực tuyến của khách sạn. Hỏi thông tin gì từ lịch trình Sa Pa, món ăn ngon, đến cả dịch thuật tiếng Anh đều trả lời rất lịch thiệp, thông minh như một người quản gia cao cấp thực thụ.",
+        avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=150&q=80"
+      }
+    ];
+
+    function renderReviews() {
+      const container = document.getElementById("reviewsContainer");
+      const stored = JSON.parse(localStorage.getItem("haihotels_reviews") || "[]");
+      const all = [...stored, ...defaultReviews];
+
+      container.innerHTML = all.map(r => `
+        <div class="review-card">
+          <div class="review-stars">${"★".repeat(r.stars)}${"☆".repeat(5 - r.stars)}</div>
+          <div class="review-text">"${r.text}"</div>
+          <div class="review-author">
+            <img class="author-avatar" src="${r.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80'}" alt="${r.name}" onerror="handleAvatarFallback(this)">
+            <div class="author-info">
+              <h4>${r.name}</h4>
+              <p>Khách nghỉ dưỡng tại ${r.hotel}</p>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function openWriteReviewModal() {
+      document.getElementById("reviewModal").classList.add("active");
+    }
+
+    function closeReviewModal() {
+      document.getElementById("reviewModal").classList.remove("active");
+    }
+
+    function closeReviewOnBackdrop(e) {
+      if (e.target.id === "reviewModal") {
+        closeReviewModal();
+      }
+    }
+
+    function handleReviewSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById("revName").value.trim();
+      const hotel = document.getElementById("revHotel").value;
+      const stars = parseInt(document.getElementById("revStars").value);
+      const text = document.getElementById("revContent").value.trim();
+
+      const newRev = { name, hotel, stars, text };
+      const stored = JSON.parse(localStorage.getItem("haihotels_reviews") || "[]");
+      stored.unshift(newRev);
+      localStorage.setItem("haihotels_reviews", JSON.stringify(stored));
+
+      closeReviewModal();
+      renderReviews();
+      showToast("✨ Cảm ơn Quý khách đã gửi nhận xét quý báu!");
+    }
+
+    /* -------------------------------------------------------------------------
+       7. CẤU HÌNH MÔ HÌNH AI & TÍCH HỢP GEMINI 1.5 PRO / OPENAI
+       ------------------------------------------------------------------------- */
+    let aiConfig = {
+      engine: localStorage.getItem("ai_engine") || "local",
+      apiKey: localStorage.getItem("ai_api_key") || ""
+    };
+
+    function openAISettingsModal() {
+      document.getElementById("aiSettingsModal").classList.add("active");
+      selectAIModel(aiConfig.engine);
+      document.getElementById("userApiKeyField").value = aiConfig.apiKey;
+    }
+
+    function closeAISettingsModal() {
+      document.getElementById("aiSettingsModal").classList.remove("active");
+    }
+
+    function closeAISettingsOnBackdrop(e) {
+      if (e.target.id === "aiSettingsModal") {
+        closeAISettingsModal();
+      }
+    }
+
+    function selectAIModel(modelType) {
+      aiConfig.engine = modelType;
+      document.querySelectorAll(".model-choice-radio").forEach(r => r.classList.remove("active"));
+
+      const keyBox = document.getElementById("apiKeyInputBox");
+      const keyLabel = document.getElementById("apiKeyLabel");
+
+      if (modelType === 'gemini') {
+        document.getElementById("radioOptGemini").classList.add("active");
+        keyBox.style.display = "block";
+        keyLabel.textContent = "Nhập Google Gemini API Key (Miễn phí từ Google AI Studio):";
+      } else if (modelType === 'openai') {
+        document.getElementById("radioOptGPT").classList.add("active");
+        keyBox.style.display = "block";
+        keyLabel.textContent = "Nhập OpenAI API Key:";
+      } else {
+        document.getElementById("radioOptLocal").classList.add("active");
+        keyBox.style.display = "none";
+      }
+    }
+
+    function saveAISettings() {
+      aiConfig.apiKey = document.getElementById("userApiKeyField").value.trim();
+      localStorage.setItem("ai_engine", aiConfig.engine);
+      localStorage.setItem("ai_api_key", aiConfig.apiKey);
+
+      const labelEl = document.getElementById("currentEngineLabel");
+      if (aiConfig.engine === 'gemini') {
+        labelEl.textContent = "Google Gemini 1.5 (Cloud AI)";
+      } else if (aiConfig.engine === 'openai') {
+        labelEl.textContent = "OpenAI GPT-4o (Cloud AI)";
+      } else {
+        labelEl.textContent = "HaiHotels Semantic Brain (Nội Bộ)";
+      }
+
+      closeAISettingsModal();
+      showToast("⚙️ Đã lưu cấu hình mô hình AI thành công!");
+    }
+
+    /* -------------------------------------------------------------------------
+       8. QUẢN GIA MAI LINH: DUAL-MODE AI ENGINE (CLOUD GEMINI/GPT + LOCAL BRAIN)
+       ------------------------------------------------------------------------- */
+    let isConciergeOpen = false;
+    let isAudioActive = true;
+
+    function playSoftBeep() {
+      if (!isAudioActive) return;
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(587.33, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.15);
+        gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.28);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.28);
+      } catch (e) {}
+    }
+
+    function toggleMessageAudio() {
+      isAudioActive = !isAudioActive;
+      document.getElementById("soundToggleBtn").textContent = isAudioActive ? "🔔" : "🔕";
+      showToast(isAudioActive ? "Đã bật âm thông báo tin nhắn" : "Đã tắt âm thông báo");
+    }
+
+    function toggleConcierge() {
+      isConciergeOpen = !isConciergeOpen;
+      const windowEl = document.getElementById("conciergeWindow");
+      const tooltip = document.getElementById("conciergeTooltip");
+      if (tooltip) tooltip.style.display = "none";
+
+      if (isConciergeOpen) {
+        windowEl.classList.add("open");
+        document.getElementById("conciergeInputField").focus();
+      } else {
+        windowEl.classList.remove("open");
+      }
+    }
+
+    function openConciergeChat(promptText) {
+      if (!isConciergeOpen) {
+        toggleConcierge();
+      }
+      if (promptText) {
+        setTimeout(() => {
+          sendGuestMessage(promptText);
+        }, 200);
+      }
+    }
+
+    function handleInputKey(e) {
+      if (e.key === "Enter") {
+        submitGuestMessage();
+      }
+    }
+
+    function submitGuestMessage() {
+      const field = document.getElementById("conciergeInputField");
+      const text = field.value.trim();
+      if (!text) return;
+      sendGuestMessage(text);
+      field.value = "";
+    }
+
+    async function sendGuestMessage(text) {
+      appendGuestBubble(text);
+      showConciergeTyping();
+
+      // Nếu người dùng cấu hình Gemini API hoặc OpenAI API
+      if (aiConfig.engine === 'gemini' && aiConfig.apiKey) {
+        try {
+          const cloudReply = await callGeminiAPI(text);
+          hideConciergeTyping();
+          appendConciergeBubble(cloudReply);
+          playSoftBeep();
+          return;
+        } catch (err) {
+          console.warn("Lỗi Gemini API, chuyển sang Bộ Não Nội Bộ:", err);
+        }
+      } else if (aiConfig.engine === 'openai' && aiConfig.apiKey) {
+        try {
+          const cloudReply = await callOpenAIAPI(text);
+          hideConciergeTyping();
+          appendConciergeBubble(cloudReply);
+          playSoftBeep();
+          return;
+        } catch (err) {
+          console.warn("Lỗi OpenAI API, chuyển sang Bộ Não Nội Bộ:", err);
+        }
+      }
+
+      // Mặc định chạy Bộ Não Ngữ Nghĩa Nội Bộ Cấp Cao (Dynamic Semantic Inference Brain)
+      setTimeout(() => {
+        hideConciergeTyping();
+        const localReply = generateDeepSemanticResponse(text);
+        appendConciergeBubble(localReply);
+        playSoftBeep();
+      }, 750);
+    }
+
+    function appendGuestBubble(text) {
+      const container = document.getElementById("messagesContainer");
+      const wrap = document.createElement("div");
+      wrap.className = "msg-bubble-wrap msg-guest-wrap";
+      wrap.innerHTML = `
+        <div class="msg-bubble msg-guest">${escapeHtml(text)}</div>
+        <span class="msg-time-tag">Vừa xong</span>
+      `;
+      const wave = document.getElementById("typingWave");
+      container.insertBefore(wrap, wave);
+      scrollMessagesBottom();
+    }
+
+    function appendConciergeBubble(html) {
+      const container = document.getElementById("messagesContainer");
+      const wrap = document.createElement("div");
+      wrap.className = "msg-bubble-wrap msg-concierge-wrap";
+      wrap.innerHTML = `
+        <div class="msg-bubble msg-concierge">${html}</div>
+        <span class="msg-time-tag">Mai Linh · Vừa xong</span>
+      `;
+      const wave = document.getElementById("typingWave");
+      container.insertBefore(wrap, wave);
+      scrollMessagesBottom();
+    }
+
+    function showConciergeTyping() {
+      document.getElementById("typingWave").classList.add("active");
+      scrollMessagesBottom();
+    }
+
+    function hideConciergeTyping() {
+      document.getElementById("typingWave").classList.remove("active");
+    }
+
+    function scrollMessagesBottom() {
+      const c = document.getElementById("messagesContainer");
+      c.scrollTop = c.scrollHeight;
+    }
+
+    function escapeHtml(t) {
+      const div = document.createElement('div');
+      div.textContent = t;
+      return div.innerHTML;
+    }
+
+    /* GỌI API GOOGLE GEMINI 1.5 PRO / FLASH TRỰC TIẾP */
+    async function callGeminiAPI(userPrompt) {
+      const systemInstruction = `Bạn là Mai Linh - Quản gia trưởng tận tâm và thanh lịch tại chuỗi khách sạn & resort 5 sao HaiHotels (Việt Nam). 
+HaiHotels có 12 cơ sở 5 sao tại: Đà Nẵng (Mỹ Khê), Phú Quốc (Bãi Trường & Bãi Khem), Sa Pa (Mường Hoa), Đà Lạt (Hồ Tuyền Lâm), Nha Trang (Trần Phú), Sài Gòn (Quận 1), Hà Nội (Hàng Bè), Hạ Long (Bãi Cháy), Vũng Tàu (Bãi Trước), Huế (Sông Hương), Mũi Né (Hàm Tiến).
+Phong cách của bạn:
+1. Xưng hô lịch thiệp 'Quý khách' và xưng 'em' hoặc 'Mai Linh'. Tươi vui, hiếu khách, văn phong mượt mà của ngành dịch vụ thượng lưu.
+2. Bạn am hiểu sâu sắc về văn hóa, lịch trình du lịch, món ăn ngon từng vùng miền, giải toán, khoa học, dịch thuật hay viết thơ, code.
+3. Khi khách hỏi đặt phòng, hãy mời khách nhấn '⚡ Đặt Phòng Ngay' hoặc mở modal trên giao diện.`;
+
+      const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${aiConfig.apiKey}`;
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [
+            { role: 'user', parts: [{ text: `${systemInstruction}\n\nKhách hỏi: ${userPrompt}` }] }
+          ]
+        })
+      });
+
+      if (!res.ok) throw new Error("Gemini API Error: " + res.status);
+      const data = await res.json();
+      const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+      return text.replace(/\n/g, '<br>');
+    }
+
+    /* GỌI API OPENAI GPT-4o TRỰC TIẾP */
+    async function callOpenAIAPI(userPrompt) {
+      const endpoint = "https://api.openai.com/v1/chat/completions";
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${aiConfig.apiKey}`
+        },
+        body: JSON.stringify({
+          model: "gpt-4o",
+          messages: [
+            { role: "system", content: "Bạn là Mai Linh - Quản gia cao cấp tại HaiHotels 5 sao Việt Nam. Giọng điệu ấm áp, ân cần, giải đáp chi tiết, sâu sắc mọi câu hỏi." },
+            { role: "user", content: userPrompt }
+          ]
+        })
+      });
+
+      if (!res.ok) throw new Error("OpenAI API Error: " + res.status);
+      const data = await res.json();
+      return data.choices?.[0]?.message?.content?.replace(/\n/g, '<br>');
+    }
+
+    /* BỘ NÃO NGỮ NGHĨA ĐA TẦNG NỘI BỘ (DYNAMIC CONTEXTUAL SEMANTIC INFERENCE BRAIN) */
+    function generateDeepSemanticResponse(userQuery) {
+      const raw = userQuery.trim();
+      const q = raw.toLowerCase();
+
+      // 1. TÍNH TOÁN CON SỐ / PHÉP TÍNH
+      const mathExp = raw.match(/(\d+[\s\+\-\*\/\%\.]+\d+[\s\+\-\*\/\%\d\.]*)/);
+      if (mathExp && (q.includes("tính") || q.includes("bằng bao nhiêu") || q.includes("kết quả") || q.startsWith("="))) {
+        try {
+          const sanitized = mathExp[0].replace(/[^0-9\+\-\*\/\.\s]/g, '');
+          const result = Function(`'use strict'; return (${sanitized})`)();
+          return `
+            Dạ, em gửi Quý khách kết quả tính toán chi tiết:<br>
+            Biểu thức: <code>${sanitized}</code><br>
+            Kết quả: <b style="font-size: 16px; color: var(--navy-dark);">${result.toLocaleString('vi-VN')}</b>
+          `;
+        } catch (e) {}
+      }
+
+      // 2. SO SÁNH 2 ĐỊA ĐIỂM / KHÁCH SẠN
+      if ((q.includes("so sánh") || q.includes("nên đi") || q.includes("khác nhau") || q.includes("hay")) && 
+          ((q.includes("đà nẵng") && q.includes("phú quốc")) || (q.includes("sa pa") && q.includes("đà lạt")))) {
+        if (q.includes("đà nẵng") && q.includes("phú quốc")) {
+          return `
+            ⚖️ <b>SO SÁNH NGHỈ DƯỠNG ĐÀ NẴNG & PHÚ QUỐC TẠI HAIHOTELS:</b><br><br>
+            &bull; <b>HaiHotels Đà Nẵng:</b> Thích hợp cho du khách thích kết hợp tắm biển Mỹ Khê với khám phá phố cổ Hội An, Bà Nà Hills và ẩm thực sôi động miền Trung. Giá phòng từ <b>1.850.000₫/đêm</b>.<br>
+            &bull; <b>HaiHotels Phú Quốc:</b> Thiên đường nghỉ dưỡng biệt lập, cát trắng mịn, hoàng hôn lãng mạn và sự riêng tư tuyệt đối cho các cặp đôi hoặc gia đình cần tĩnh dưỡng. Giá phòng từ <b>2.890.000₫/đêm</b>.<br><br>
+            Nếu Quý khách thích khám phá nhộn nhịp nên chọn Đà Nẵng; nếu muốn thư giãn hoàn toàn bên bờ biển thì Phú Quốc là lựa chọn hoàn hảo ạ!
+          `;
+        }
+        if (q.includes("sa pa") && q.includes("đà lạt")) {
+          return `
+            ⚖️ <b>SO SÁNH NGHỈ DƯỠNG SA PA & ĐÀ LẠT TẠI HAIHOTELS:</b><br><br>
+            &bull; <b>HaiHotels Sa Pa:</b> Nằm giữa thung lũng Mường Hoa kỳ vĩ, ngắm biển mây Fansipan và trải nghiệm tắm lá thuốc người Dao đỏ độc đáo. Giá <b>1.250.000₫/đêm</b>.<br>
+            &bull; <b>HaiHotels Đà Lạt:</b> Yên ả dưới tán rừng thông già Hồ Tuyền Lâm, không khí se lạnh ngọt ngào, tiệc BBQ sân vườn phong cách lãng mạn nước Pháp. Giá <b>990.000₫/đêm</b>.<br><br>
+            Quý khách muốn tìm kiếm không gian săn mây Tây Bắc hay rừng thông sương mờ Đà Lạt ạ?
+          `;
+        }
+      }
+
+      // 3. CHÍNH SÁCH GIA ĐÌNH, TRẺ EM & GIƯỜNG PHỤ
+      if (q.includes("trẻ em") || q.includes("em bé") || q.includes("gia đình") || q.includes("giường phụ")) {
+        return `
+          👨‍👩‍👧‍👦 <b>CHÍNH SÁCH DÀNH CHO GIA ĐÌNH & TRẺ EM TẠI HAIHOTELS:</b><br><br>
+          &bull; <b>Trẻ em dưới 6 tuổi:</b> Hoàn toàn miễn phí ngủ chung giường với bố mẹ và miễn phí bữa sáng buffet 5 sao.<br>
+          &bull; <b>Trẻ em từ 6 đến 11 tuổi:</b> Phụ thu 250.000₫/đêm (đã bao gồm buffet sáng thượng hạng).<br>
+          &bull; <b>Kê thêm giường phụ (Extra Bed):</b> Phụ thu 450.000₫/đêm cho người lớn hoặc trẻ từ 12 tuổi trở lên.<br>
+          &bull; <b>Tiện ích cho bé:</b> Hệ thống có sẵn nôi em bé miễn phí, khu vui chơi Kids Club an toàn và thực đơn dinh dưỡng riêng do bếp trưởng chuẩn bị.
+        `;
+      }
+
+      // 4. CHÍNH SÁCH ĐƯA ĐÓN SÂN BAY & NHẬN PHÒNG
+      if (q.includes("sân bay") || q.includes("đón") || q.includes("nhận phòng") || q.includes("check in") || q.includes("check out") || q.includes("trả phòng")) {
+        return `
+          🚗 <b>QUY ĐỊNH NHẬN/TRẢ PHÒNG & ĐƯA ĐÓN SÂN BAY:</b><br><br>
+          &bull; <b>Giờ Check-in tiêu chuẩn:</b> Từ <b>14:00</b>.<br>
+          &bull; <b>Giờ Check-out tiêu chuẩn:</b> Trước <b>12:00</b> trưa.<br>
+          &bull; <b>Hỗ trợ nhận phòng sớm:</b> Miễn phí nhận phòng từ 10:00 sáng nếu khách sạn còn phòng trống sẵn sàng.<br>
+          &bull; <b>Xe đưa đón sân bay:</b> Miễn phí đưa đón 2 chiều tại <i>HaiHotels Phú Quốc</i> và <i>HaiHotels Đà Nẵng</i> khi Quý khách đặt phòng từ 2 đêm trở lên!
+        `;
+      }
+
+      // 5. YÊU CẦU ĐẶT PHÒNG
+      if (q.includes("đặt phòng") || q.includes("book") || q.includes("giữ chỗ") || q.includes("thuê phòng")) {
+        const found = haiHotelsData.find(h => q.includes(h.name.toLowerCase()) || q.includes(h.city.toLowerCase()));
+        const target = found || haiHotelsData[0];
+        currentDetailHotel = target;
+        setTimeout(() => startCheckoutFlow(), 300);
+        return `Dạ em đã mở ngay Phiếu Đặt Phòng cho <b>${target.name}</b> để Quý khách xác nhận thông tin nhận ưu đãi trực tiếp rồi ạ!`;
+      }
+
+      // 6. GỢI Ý DANH SÁCH VIEW BIỂN
+      if (q.includes("biển") || q.includes("đà nẵng") || q.includes("phú quốc") || q.includes("nha trang") || q.includes("hạ long")) {
+        const seaList = haiHotelsData.filter(h => h.category === "sea");
+        return `
+          Dạ vâng! Chuỗi resort biển 5 sao của <b>HaiHotels</b> luôn là sự lựa chọn hàng đầu cho các kỳ nghỉ thư giãn và tuần trăng mật:<br>
+          <div class="chat-hotel-carousel">
+            ${seaList.map(h => `
+              <div class="carousel-card">
+                <img class="carousel-thumb" src="${h.image}" alt="${h.name}" onerror="handleImgFallback(this)">
+                <div class="carousel-info">
+                  <div class="carousel-name">${h.name}</div>
+                  <div class="carousel-price">${h.priceDisplay}</div>
+                  <button class="btn-carousel-book" onclick="openRoomModal(${h.id})">Xem Chi Tiết</button>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+          <div style="font-size: 12px; color: var(--text-muted); margin-top: 6px;">💡 Quý khách có thể bấm nút <b>Chi Tiết</b> trên từng thẻ để xem đầy đủ 4 góc ảnh thực tế nhé!</div>
+        `;
+      }
+
+      // 7. LÊN LỊCH TRÌNH DU LỊCH 3N2Đ
+      if (q.includes("lịch trình") || q.includes("kế hoạch") || q.includes("3 ngày") || q.includes("tour")) {
+        return `
+          🗺️ <b>GỢI Ý LỊCH TRÌNH 3 NGÀY 2 ĐÊM TRỌN VẸN TẠI ĐÀ NẴNG - HỘI AN:</b><br><br>
+          <b>📍 Ngày 1: Đón gió biển Mỹ Khê & Khám phá ẩm thực</b><br>
+          &bull; <i>Sáng:</i> Check-in tại <i>HaiHotels Premier Da Nang</i>, thưởng thức welcome drink thanh mát.<br>
+          &bull; <i>Chiều:</i> Thư giãn tại hồ bơi vô cực Tầng 28 ngắm trọn bình minh trên biển.<br>
+          &bull; <i>Tối:</i> Thưởng thức hải sản Năm Đảnh, dạo cầu Rồng xem phun lửa lúc 21:00.<br><br>
+
+          <b>📍 Ngày 2: Cầu Vàng Bà Nà Hills & Phố Cổ Hội An</b><br>
+          &bull; <i>Sáng:</i> Tham quan Cầu Vàng bàn tay khổng lồ giữa làn mây Bà Nà Hills.<br>
+          &bull; <i>Chiều:</i> Ghé thăm Hội An, đi thuyền thả hoa đăng trên sông Hoài và ăn cao lầu cổ truyền.<br><br>
+
+          <b>📍 Ngày 3: Bán đảo Sơn Trà & Quà tặng địa phương</b><br>
+          &bull; <i>Sáng:</i> Viếng Chùa Linh Ứng ngắm tượng Phật Bà 67m hướng biển.<br>
+          &bull; <i>Trưa:</i> Mua đặc sản chả bò, mực rim me tại chợ Hàn và làm thủ tục check-out.
+        `;
+      }
+
+      // 8. ẨM THỰC ĐỊA PHƯƠNG
+      if (q.includes("ăn gì") || q.includes("món ngon") || q.includes("ẩm thực") || q.includes("quán ăn")) {
+        return `
+          🍜 <b>NHỮNG ĐẶC SẢN NỔI TIẾNG QUÝ KHÁCH NÊN THƯỞNG THỨC:</b><br><br>
+          &bull; <b>Tại Đà Nẵng:</b> Mì Quảng ếch Bếp Trang, Bánh tráng cuốn thịt heo Đại Lộc, Bún chả cá Hòn, Hải sản Bé Mặn ven biển.<br>
+          &bull; <b>Tại Phú Quốc:</b> Bún quậy Kiến Xây trứ danh, gỏi cá trích cuốn bánh tráng, còi biên mai nướng muối ớt.<br>
+          &bull; <b>Tại Sa Pa:</b> Thắng cố A Quỳnh, lẩu cá hồi tươi Mường Hoa, gà đen nướng mật ong rừng Tây Bắc.<br><br>
+          Quý khách cần em liên hệ đặt bàn ưu tiên tại các nhà hàng đối tác của HaiHotels không ạ?
+        `;
+      }
+
+      // 9. THƠ CA & SÁNG TÁC
+      if (q.includes("thơ") || q.includes("làm thơ") || q.includes("bài thơ")) {
+        return `
+          🌸 <i>"Gió biển chiều nay thổi ngát xanh,<br>
+          HaiHotels đón ánh nắng trong lành.<br>
+          Mỹ Khê sóng vỗ ru bờ cát,<br>
+          Hạnh phúc đong đầy phút bên anh.<br><br>
+          Sớm mai thức giấc ngắm bình minh,<br>
+          Quản gia chăm sóc vẹn chữ tình.<br>
+          Nụ cười trao trọn niềm thân ái,<br>
+          Kỳ nghỉ thảnh thơi giấc mộng xinh."</i> 🌊✨
+        `;
+      }
+
+      // 10. LẬP TRÌNH & VIẾT CODE
+      if (q.includes("code") || q.includes("lập trình") || q.includes("python") || q.includes("javascript")) {
+        return `
+          Dạ em rất sẵn lòng hỗ trợ giải thuật và viết mã nguồn cho Quý khách:<br>
+          <pre style="background: #1e293b; color: #f8fafc; padding: 12px; border-radius: 8px; font-size: 13px; font-family: monospace; overflow-x: auto;"><code># Hàm kiểm tra số nguyên tố tối ưu (Python)
+def is_prime(n):
+    if n <= 1:
+        return False
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
+
+print(is_prime(29)) # Output: True</code></pre>
+          Quý khách cần triển khai tính năng gì với Python, JavaScript hay HTML/CSS thì cứ nhắn em nhé!
+        `;
+      }
+
+      // 11. CÂU HỎI TỔNG QUÁT / TƯ VẤN SÂU
+      return `
+        Dạ em đã lắng nghe chia sẻ của Quý khách về: <i>"${escapeHtml(raw)}"</i>.<br><br>
+        Tại <b>HaiHotels & Resorts</b>, em luôn sẵn sàng đồng hành cùng Quý khách trong mọi khâu: từ lựa chọn phòng ưng ý, hướng dẫn chọn phương thức thanh toán VietQR Napas, đến gợi ý lịch trình du lịch và điểm đến văn hóa.<br><br>
+        Quý khách muốn em gửi thông tin chi tiết về khách sạn biển Đà Nẵng, biệt thự nghỉ dưỡng Phú Quốc, hay tra cứu thông tin đơn phòng đã đặt ạ?
+        <div class="concierge-suggestions" style="margin-top: 10px;">
+          <button class="suggestion-pill" onclick="sendGuestMessage('Tư vấn phòng view biển Đà Nẵng')">🌊 Phòng view biển Đà Nẵng</button>
+          <button class="suggestion-pill" onclick="sendGuestMessage('Tư vấn resort Phú Quốc')">⭐ Resort Phú Quốc</button>
+          <button class="suggestion-pill" onclick="openLookupModal()">🔍 Tra cứu đơn phòng đã đặt</button>
+        </div>
+      `;
+    }
+
+    function postBookingConfirmation(hotel, orderRecord) {
+      const code = orderRecord ? orderRecord.code : "HAI-" + Math.floor(10000 + Math.random() * 90000);
+      const voucherHtml = `
+        Dạ vâng! Em đã hỗ trợ giữ phòng thành công cho Quý khách tại <b>HaiHotels</b>:
+        <div class="voucher-card">
+          <div style="font-size: 11px; font-weight: 700; color: var(--gold-dark); text-transform: uppercase;">✦ VOUCHER GIỮ PHÒNG CHÍNH THỨC ✦</div>
+          <div style="font-size: 15px; font-weight: 800; color: var(--navy-dark); margin: 4px 0;">${hotel.name}</div>
+          <div style="font-size: 13px; color: #15803d; font-weight: 700;">💰 ${orderRecord ? orderRecord.total : hotel.priceDisplay} (Đã bao gồm buffet sáng)</div>
+          <div>Mã xác nhận: <span class="voucher-code">${code}</span></div>
+          <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 4px;">🛡️ Quản gia sẽ liên hệ đón tiếp Quý khách trước giờ nhận phòng. Quý khách có thể bấm <b>Tra Cứu Đơn</b> trên thanh điều hướng để xem lại bất cứ lúc nào!</div>
+        </div>
+        <div style="margin-top: 10px; font-size: 12.5px;">
+          🔗 <b>Chia sẻ cùng người thân:</b> <a href="javascript:void(0)" onclick="openShareModal(${hotel.id})" style="color: var(--gold-dark); font-weight: bold; text-decoration: underline;">Bấm vào đây để sao chép liên kết phòng này</a>
+        </div>
+      `;
+      appendConciergeBubble(voucherHtml);
+      playSoftBeep();
+      triggerConfettiParticles();
+    }
+
+    /* -------------------------------------------------------------------------
+       9. MODAL CHIA SẺ LIÊN KẾT ĐẶT HÀNG (SHARE MODAL)
+       ------------------------------------------------------------------------- */
+    let currentShareId = 1;
+
+    function getShareableUrl(hotelId) {
+      const base = window.location.href.split('?')[0].split('#')[0];
+      return `${base}?room=${hotelId}`;
+    }
+
+    function openShareModal(hotelId) {
+      currentShareId = hotelId;
+      const hotel = haiHotelsData.find(h => h.id === hotelId);
+      if (!hotel) return;
+
+      const url = getShareableUrl(hotelId);
+      document.getElementById("shareLinkField").value = url;
+
+      // Render QR code
+      const qrBox = document.getElementById("qrPlaceholder");
+      qrBox.innerHTML = `
+        <svg width="110" height="110" viewBox="0 0 110 110" style="background: white; padding: 6px; border-radius: 8px; border: 1px solid var(--border-subtle);">
+          <rect x="10" y="10" width="25" height="25" fill="#0a1128" />
+          <rect x="15" y="15" width="15" height="15" fill="#fff" />
+          <rect x="18" y="18" width="9" height="9" fill="#0a1128" />
+          
+          <rect x="75" y="10" width="25" height="25" fill="#0a1128" />
+          <rect x="80" y="15" width="15" height="15" fill="#fff" />
+          <rect x="83" y="18" width="9" height="9" fill="#0a1128" />
+          
+          <rect x="10" y="75" width="25" height="25" fill="#0a1128" />
+          <rect x="15" y="80" width="15" height="15" fill="#fff" />
+          <rect x="18" y="83" width="9" height="9" fill="#0a1128" />
+
+          <rect x="45" y="15" width="6" height="6" fill="#1c2b54" />
+          <rect x="55" y="25" width="8" height="8" fill="#1c2b54" />
+          <rect x="42" y="45" width="26" height="26" fill="#c5a880" rx="4" />
+          <text x="55" y="63" font-size="12" font-weight="bold" fill="#fff" text-anchor="middle">H</text>
+
+          <rect x="75" y="55" width="8" height="8" fill="#1c2b54" />
+          <rect x="85" y="70" width="12" height="6" fill="#1c2b54" />
+          <rect x="45" y="85" width="10" height="10" fill="#1c2b54" />
+          <rect x="65" y="80" width="8" height="8" fill="#1c2b54" />
+        </svg>
+      `;
+
+      document.getElementById("shareModal").classList.add("active");
+    }
+
+    function closeShareModal() {
+      document.getElementById("shareModal").classList.remove("active");
+    }
+
+    function closeShareModalOnBackdrop(e) {
+      if (e.target.id === "shareModal") {
+        closeShareModal();
+      }
+    }
+
+    function copyShareUrl() {
+      const field = document.getElementById("shareLinkField");
+      field.select();
+      navigator.clipboard.writeText(field.value).then(() => {
+        showToast("📋 Đã sao chép link đặt phòng vào bộ nhớ tạm!");
+      }).catch(() => {
+        document.execCommand('copy');
+        showToast("📋 Đã sao chép link đặt phòng!");
+      });
+    }
+
+    function shareToNetwork(network) {
+      const url = encodeURIComponent(document.getElementById("shareLinkField").value);
+      const msg = encodeURIComponent("Đặt phòng nghỉ dưỡng 5 sao sang trọng tại HaiHotels cùng mình nhé!");
+
+      if (network === 'facebook') {
+        window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
+      } else if (network === 'telegram') {
+        window.open(`https://t.me/share/url?url=${url}&text=${msg}`, '_blank');
+      } else {
+        copyShareUrl();
+        showToast("💬 Đã sao chép link! Mở Zalo dán link để gửi ngay cho bạn bè.");
+      }
+    }
+
+    /* -------------------------------------------------------------------------
+       10. TIỆN ÍCH CHUNG (TOAST & CONFETTI)
+       ------------------------------------------------------------------------- */
+    function showToast(msg) {
+      const toast = document.getElementById("toast");
+      document.getElementById("toastMsg").textContent = msg;
+      toast.classList.add("show");
+      setTimeout(() => {
+        toast.classList.remove("show");
+      }, 3200);
+    }
+
+    function triggerConfettiParticles() {
+      const canvas = document.getElementById('confettiCanvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const particles = [];
+      const colors = ['#c5a880', '#0a1128', '#10b981', '#f59e0b', '#3b82f6'];
+
+      for (let i = 0; i < 80; i++) {
+        particles.push({
+          x: canvas.width / 2,
+          y: canvas.height / 2,
+          r: Math.random() * 5 + 3,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          vx: (Math.random() - 0.5) * 14,
+          vy: (Math.random() - 0.5) * 14 - 2,
+          alpha: 1,
+          decay: Math.random() * 0.02 + 0.015
+        });
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        let active = 0;
+
+        particles.forEach(p => {
+          if (p.alpha > 0) {
+            active++;
+            ctx.save();
+            ctx.globalAlpha = p.alpha;
+            ctx.fillStyle = p.color;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+
+            p.x += p.vx;
+            p.y += p.vy;
+            p.vy += 0.3;
+            p.alpha -= p.decay;
+          }
+        });
+
+        if (active > 0) {
+          requestAnimationFrame(animate);
+        } else {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    /* -------------------------------------------------------------------------
+       11. KHỞI TẠO HỆ THỐNG BAN ĐẦU
+       ------------------------------------------------------------------------- */
+    document.addEventListener("DOMContentLoaded", () => {
+      // 1. Render Khách Sạn & Đánh Giá
+      displayHotels(haiHotelsData);
+      renderReviews();
+
+      // 2. Set default date inputs on hero dock
+      const today = new Date();
+      const nextDay = new Date();
+      nextDay.setDate(today.getDate() + 2);
+      const toDateStr = d => d.toISOString().split('T')[0];
+
+      const inEl = document.getElementById("checkinInput");
+      const outEl = document.getElementById("checkoutInput");
+      if (inEl) inEl.value = toDateStr(today);
+      if (outEl) outEl.value = toDateStr(nextDay);
+
+      // 3. Update Engine label
+      const labelEl = document.getElementById("currentEngineLabel");
+      if (labelEl) {
+        if (aiConfig.engine === 'gemini') {
+          labelEl.textContent = "Google Gemini 1.5 (Cloud AI)";
+        } else if (aiConfig.engine === 'openai') {
+          labelEl.textContent = "OpenAI GPT-4o (Cloud AI)";
+        } else {
+          labelEl.textContent = "HaiHotels Semantic Brain (Nội Bộ)";
+        }
+      }
+
+      // 4. Kiểm tra liên kết chia sẻ (?room=ID hoặc ?hotel=ID)
+      const urlParams = new URLSearchParams(window.location.search);
+      const sharedId = parseInt(urlParams.get('room') || urlParams.get('hotel'));
+
+      if (sharedId && haiHotelsData.some(h => h.id === sharedId)) {
+        setTimeout(() => {
+          const cardEl = document.getElementById(`hotel-card-${sharedId}`);
+          if (cardEl) {
+            cardEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            cardEl.classList.add('highlighted');
+          }
+          openRoomModal(sharedId);
+          showToast(`✨ Đang mở điểm đến được chia sẻ: ${haiHotelsData.find(h => h.id === sharedId).name}`);
+        }, 600);
+      }
+
+      // 5. Hiện tooltip sau 2.5s
+      setTimeout(() => {
+        const tooltip = document.getElementById("conciergeTooltip");
+        if (tooltip && !isConciergeOpen) {
+          tooltip.style.display = "flex";
+        }
+      }, 2500);
+    });
+  </script>
+</body>
+</html>

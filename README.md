@@ -1,24 +1,65 @@
-# 🏨 Hotel Booking UI & Conversational Chatbot
+# Đồ Án Tương Tác Người - Máy (HCI) - Nhóm 11
+## Hệ Thống Đặt Phòng Khách Sạn & Trợ Lý Ảo Hội Thoại Rich UI (Booking / Agoda Inspiration)
 
-Dự án thiết kế giao diện đặt phòng khách sạn tích hợp hệ thống trợ lý ảo thông minh (Conversational UI). Tập trung vào việc tối ưu hóa trải nghiệm người dùng (UX) thông qua các thành phần tương tác trực quan, học hỏi từ các nền tảng lớn như Booking, Agoda, Traveloka.
+---
 
-Dự án thuộc môn học **Tương tác Người - Máy (HCI)**.
+### 🚀 Hướng Dẫn Khởi Chạy Nhanh (1 Click)
+- **Cách 1**: Nhấp đúp chuột vào file `START_PROJECT.bat` để tự động mở ứng dụng trên trình duyệt web mặc định.
+- **Cách 2**: Nhấp đúp chuột mở trực tiếp file `index.html` (chạy offline 100% không cần web server hay cài đặt thư viện).
 
-## ✨ Tính năng nổi bật
-* **Trang chủ Booking:** Giao diện thẻ trực quan, hiện đại và sạch sẽ.
-* **Chatbot Widget:** Nút hỗ trợ trôi nổi (floating) góc phải màn hình, đóng/mở mượt mà.
-* **Rich UI trong Chat:** 
-  * Hiển thị danh sách phòng bằng thẻ cuộn ngang (Carousel).
-  * Gợi ý thao tác nhanh (Quick Replies / Chips) để giảm thiểu việc gõ phím.
-* **Typing Indicator:** Hiệu ứng bot đang gõ chữ tạo cảm giác tương tác tự nhiên.
+---
 
-## 🛠 Công nghệ sử dụng
-Dự án được xây dựng hoàn toàn bằng mã nguồn thuần, không sử dụng thư viện hay framework rườm rà để đảm bảo tốc độ và tính trực diện:
-* HTML5
-* CSS3
-* Vanilla JavaScript (ES6+)
+### 📂 Cấu Trúc Toàn Bộ Dự Án
 
-## 🚀 Hướng dẫn chạy dự án
-1. Clone repository này về máy.
-2. Click đúp vào file `index.html` để mở trực tiếp trên trình duyệt.
-3. Hoặc xem bản Live Demo đã được deploy: `[Chèn link Vercel của bạn vào đây]`
+```text
+d:/Tương tác/
+├── START_PROJECT.bat            # File chạy tự động tiện lợi cho thuyết trình
+├── index.html                   # File chạy trực tiếp toàn bộ HTML + CSS + JS thuần
+├── README.md                    # Hướng dẫn chi tiết toàn bộ đồ án
+└── hotel-booking-hci-group11/
+    ├── START_PROJECT.bat
+    ├── index.html
+    ├── mobile.html              # Khung mô phỏng thiết bị di động (iPhone / Galaxy / iPad)
+    ├── assets/
+    │   ├── css/
+    │   │   ├── layout.css       # CSS phong cách Booking / Agoda
+    │   │   └── chatbot.css      # CSS widget chat, typing indicator, carousel
+    │   └── js/
+    │       ├── ui-ux.js         # Logic render phòng, bộ lọc, modal
+    │       └── chat-logic.js    # Logic chatbot, quick replies, âm thanh chime, voucher
+    ├── data/
+    │   ├── mock_rooms.json      # Dữ liệu mẫu 6 phòng tiêu chuẩn
+    │   ├── scenarios.json       # 3 kịch bản kiểm thử Usability Testing
+    │   └── faq.json             # Dữ liệu hỏi đáp câu hỏi thường gặp
+    └── docs_hci/
+        ├── HCI_REPORT_NHOM_11.md       # Báo cáo toàn văn đồ án HCI (Chuẩn học thuật)
+        ├── slide_thuyet_trinh.html     # Slide trình chiếu web hiện đại (Bấm phím mũi tên)
+        ├── benchmarking/
+        │   └── booking_vs_agoda_ux.md  # Nghiên cứu đối sánh UX Booking vs Agoda
+        └── surveys/
+            └── survey_summary.md       # Khảo sát người dùng thực tế
+```
+
+---
+
+### ✨ Các Tính Năng Đã Hoàn Thiện Vượt Trội
+
+1. **Giao diện Web Booking / Agoda**:
+   - Header nhận diện thương hiệu `Nhóm 11`.
+   - Hero Banner với **Search Box nổi viền vàng cam** chuẩn UX giảm tải nhận thức.
+   - Bộ lọc phân loại tức thì (`Tất cả`, `🌊 View Biển`, `⭐ Cao cấp VIP`, `💰 Tiết kiệm`).
+   - Lưới hiển thị phòng kèm đánh giá sao, tiện ích, mức giá và popup modal chi tiết.
+
+2. **Chatbot Widget Độc Quyền (Rich UI & Conversational UX)**:
+   - Nút nổi FAB góc phải dưới với chuyển động mở/đóng mượt mà.
+   - **Hiệu ứng Bot đang gõ (Typing Indicator)** 3 chấm nhảy sinh động (trễ tự nhiên 850ms).
+   - **Thẻ cuộn ngang Rich Carousel** hiển thị trực tiếp ảnh phòng, giá và nút *"Xem chi tiết"* ngay trong bong bóng chat.
+   - **Quick Replies**: Bấm một chạm (`🌊 Xem phòng view biển`, `💰 Phòng dưới 1 triệu`, `🛎️ Gặp lễ tân`, `📅 Hướng dẫn đặt phòng`).
+   - **Phiếu xác nhận đặt phòng (Booking Voucher)** tạo trực tiếp trong dòng chat khi đặt phòng.
+   - **Âm thanh thông báo (Web Audio Chime)** mô phỏng tin nhắn đến bằng âm thanh tần số thực (có nút bật/tắt chuông 🔔/🔕).
+   - **Bộ câu hỏi thường gặp FAQ**: Tự động nhận diện câu hỏi về giờ nhận/trả phòng, ăn sáng buffet, xe đưa đón sân bay.
+
+3. **Công Cụ Thuyết Trình & Báo Cáo HCI Đầy Đủ**:
+   - `docs_hci/slide_thuyet_trinh.html`: Bộ slide trình chiếu 7 trang với hiệu ứng chuyển trang, phím mũi tên, thanh tiến trình phục vụ buổi báo cáo trên giảng đường.
+   - `mobile.html`: Giả lập thiết bị iPhone 15 Pro, Samsung S24, iPad Mini có sẵn thanh nhiệm vụ kiểm thử Usability testing.
+   - `docs_hci/HCI_REPORT_NHOM_11.md`: Báo cáo chi tiết 10 tiêu chuẩn Nielsen Norman Heuristics, User Personas và thang đo SUS đạt 86.5/100 điểm.
